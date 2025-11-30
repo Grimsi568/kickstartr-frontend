@@ -1,0 +1,68 @@
+[
+  {
+    "id": "dotnet-clean-arch-pro",
+    "title": ".NET 9 Clean Architecture Pro",
+    "subtitle": "CQRS + MediatR + EF Core + Serilog + Swagger + Docker",
+    "price": 79,
+    "isFree": false,
+    "stack": [".NET", "PostgreSQL", "Docker"],
+    "rating": 4.9,
+    "sales": 412,
+    "tags": ["clean-architecture", "ddd", "cqrs", "api"],
+    "hero": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop",
+    "images": [
+      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1517433456452-f9633a875f6f?q=80&w=1200&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop"
+    ],
+    "features": [
+      "Domain, Application, Infrastructure, API layers",
+      "Auth: JWT + refresh tokens (ready to wire)",
+      "Serilog + ECS structured logging",
+      "Dockerfile + GitHub Actions CI starter"
+    ],
+    "longDescription": "Production-grade starter aligned with Clean Architecture and DDD building blocks."
+  },
+  {
+    "id": "nest-starter-saas",
+    "title": "NestJS SaaS Starter",
+    "subtitle": "Prisma + Postgres + Auth + RBAC + Stripe hooks",
+    "price": 59,
+    "isFree": false,
+    "stack": ["Node", "NestJS", "Prisma"],
+    "rating": 4.7,
+    "sales": 231,
+    "tags": ["saas", "stripe", "auth", "rms"],
+      "hero": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop",
+    "images": [
+      "https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?q=80&w=1200&auto=format&fit=crop"
+    ],
+    "features": [
+      "Multi-tenant design",
+      "Background jobs with BullMQ",
+      "Email templates + webhooks",
+      "Role-based access control"
+    ],
+    "longDescription": "Ship your SaaS faster with sensible defaults and auth baked in."
+  },
+  {
+    "id": "react-mobile-recipes",
+    "title": "React Native Recipes App",
+    "subtitle": "Expo + Zustand + Image Upload + Offline cache",
+    "price": 0,
+    "isFree": true,
+    "stack": ["React Native", "Expo"],
+    "rating": 4.6,
+    "sales": 980,
+    "tags": ["mobile", "offline", "recipes"],
+    "hero": "https://images.unsplash.com/photo-1466637574441-749b8f19452f?q=80&w=1200&auto=format&fit=crop",
+    "images": [],
+    "features": [
+      "Ingredient search",
+      "Flipbook cooking view",
+      "Offline caching",
+      "Image upload with presigned URLs"
+    ],
+    "longDescription": "Community freebie — great for showcasing UI/UX and offline-first patterns."
+  }
+]
