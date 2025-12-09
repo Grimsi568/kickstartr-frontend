@@ -22,7 +22,7 @@ type UserProfile = {
   id?: string
   displayName?: string
   email?: string
-  createdUtc?: string
+  createdAt?: string
   licenses?: License[]
 }
 
@@ -53,7 +53,7 @@ const MyPage = () => {
         displayName={profile.displayName}
         email={profile.email}
         id={profile.id}
-        createdUtc={profile.createdUtc}
+        createdAt={profile.createdAt}
       />
       <LicenseList licenses={profile.licenses} />
     </div>

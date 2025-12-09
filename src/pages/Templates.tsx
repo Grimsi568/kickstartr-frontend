@@ -4,7 +4,7 @@ import type { components } from '@/api/schema'
 import TemplateCard from '@/components/TemplateCard'
 
 const Templates = () => {
-  const [templates, setTemplates] = useState<components["schemas"]["TemplateDto"][]>([])
+  const [templates, setTemplates] = useState<components["schemas"]["TemplateListItemDto"][]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {

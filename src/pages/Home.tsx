@@ -1,4 +1,3 @@
-import React from 'react';
 
 // Example SVGs for illustration
 const CodeSVG = (

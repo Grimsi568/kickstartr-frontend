@@ -1,4 +1,3 @@
-import React from 'react'
 
 export default function Rating({ value }: { value: number }){
   const stars = Math.round(value)

@@ -1,11 +1,10 @@
-import React from 'react'
 import type { components } from '@/api/schema'
 
-type Props = {
-  template: components["schemas"]["TemplateDto"]
+type TemplateCardProps = {
+  template: components["schemas"]["TemplateListItemDto"]
 }
 
-const TemplateCard = ({ template }: Props) => (
+const TemplateCard = ({ template }: TemplateCardProps) => (
   <div
     className="relative group overflow-hidden rounded-2xl bg-white/10 backdrop-blur-lg border border-cyan-400 shadow-lg flex flex-col transition-all duration-300 hover:shadow-cyan-400/50 hover:border-cyan-300"
     style={{
@@ -21,11 +20,11 @@ const TemplateCard = ({ template }: Props) => (
         {template.name}
       </h2>
       <span className={`ml-2 px-4 py-1 rounded-full text-xs font-semibold border border-cyan-400 shadow-cyan-400/30 shadow-sm bg-cyan-900/60 text-cyan-200`}>
-        {template.price != null ? `${template.price} ${template.currency}` : "Free"}
+        {template.isFree ? "Free" : template.price != null ? `$${template.price}` : "Free"}
       </span>
     </div>
     <div className="relative z-10 flex-1 flex flex-col px-7 pb-4">
-      <p className="text-neutral-200 mb-4 font-light">{template.description}</p>
+      <p className="text-neutral-200 mb-4 font-light">{template.shortDescription}</p>
       <div className="flex flex-wrap gap-2 mb-6">
         {template.tags?.length
           ? template.tags.map(tag => (
@@ -46,7 +45,7 @@ const TemplateCard = ({ template }: Props) => (
       </div>
     </div>
     <div className="relative z-10 px-7 pb-4 text-xs text-cyan-300 font-mono">
-      Created: {template.createdUtc ? new Date(template.createdUtc).toLocaleDateString() : "Unknown"}
+      Created: {template.createdAt ? new Date(template.createdAt).toLocaleDateString() : "Unknown"}
     </div>
     <div className="absolute inset-0 rounded-2xl pointer-events-none border-2 border-cyan-400 opacity-0 group-hover:opacity-80 transition-opacity duration-300 blur-sm"></div>
   </div>

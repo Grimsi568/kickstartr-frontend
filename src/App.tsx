@@ -1,30 +1,34 @@
-import React from 'react'
+import { Suspense } from 'react'
 import { Routes, Route } from 'react-router-dom'
+
+import { AuthProvider } from '@/context/AuthContext'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import Home from '@/pages/Home'
-import Templates from '@/pages/Templates'
-import TemplateDetails from '@/pages/TemplateDetails'
-import Login from '@/pages/Login'
-import NotFound from '@/pages/NotFound'
 import About from '@/pages/About'
 import Contact from '@/pages/Contact'
-import { AuthProvider } from '@/context/AuthContext'
+import Templates from '@/pages/Templates'
+import TemplateDetails from '@/pages/TemplateDetails'
 import Payment from '@/pages/Payment'
-import Bundles from './pages/Bundles'
-import MyPage from './pages/MyPage'
-import TemplateCreate from './pages/admin/template-create'
-
+import Bundles from '@/pages/Bundles'
+import BundleDetails from '@/pages/BundleDetails'
+import Login from '@/pages/Login'
+import MyPage from '@/pages/MyPage'
+import NotFound from '@/pages/NotFound'
+import TemplateCreate from '@/pages/admin/TemplateCreate'
+import TagCreate from '@/pages/admin/TagCreate'
+import PackageCreate from '@/pages/admin/PackageCreate'
+import BundleCreate from '@/pages/admin/BundleCreate'
 
 function ErrorBoundary({ children }: { children: React.ReactNode }) {
   return (
-    <React.Suspense fallback={<div>Loading app…</div>}>
+    <Suspense fallback={<div>Loading app…</div>}>
       {children}
-    </React.Suspense>
+    </Suspense>
   )
 }
 
-export default function App(){
+const App = () => {
   return (
     <AuthProvider>
       <div className="min-h-screen flex flex-col">
@@ -40,8 +44,12 @@ export default function App(){
               <Route path="/contact" element={<Contact />} />
               <Route path="/login" element={<Login />} />
               <Route path="/bundles" element={<Bundles />} />
+              <Route path="/bundles/:id" element={<BundleDetails />} />
               <Route path="/my-page" element={<MyPage />} />
               <Route path="/admin/template-create" element={<TemplateCreate />} />
+              <Route path="/admin/tag-create" element={<TagCreate />} />
+              <Route path="/admin/package-create" element={<PackageCreate />} />
+              <Route path="/admin/bundle-create" element={<BundleCreate />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </ErrorBoundary>
@@ -51,3 +59,5 @@ export default function App(){
     </AuthProvider>
   )
 }
+
+export default App

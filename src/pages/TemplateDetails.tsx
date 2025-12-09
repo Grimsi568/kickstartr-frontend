@@ -6,14 +6,14 @@ import PostCommentForm from '@/components/PostCommentForm'
 
 const TemplateDetails = () => {
   const { id } = useParams<{ id: string }>()
-  const [template, setTemplate] = useState<components["schemas"]["TemplateDto"] | null>(null)
+  const [template, setTemplate] = useState<components["schemas"]["TemplateDetailDto"] | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     (async () => {
       try {
         const data = await Api.getTemplateById(id as string);
-        setTemplate(data.template);
+        setTemplate(data.template || null);
       } finally {
         setLoading(false);
       }
@@ -34,10 +34,10 @@ const TemplateDetails = () => {
               {template.name}
             </h1>
             <span className="ml-2 px-6 py-2 rounded-full text-base font-semibold border border-cyan-400 shadow-cyan-400/30 shadow-sm bg-cyan-900/60 text-cyan-200">
-              {template.price != null ? `${template.price} ${template.currency}` : "Free"}
+              {template.isFree ? "Free" : template.price != null ? `$${template.price}` : "Free"}
             </span>
           </div>
-          <p className="text-neutral-200 mb-6 font-light text-lg">{template.description}</p>
+          <p className="text-neutral-200 mb-6 font-light text-lg">{template.shortDescription || template.longDescription}</p>
           <div className="flex flex-wrap gap-2 mb-8">
             {template.tags?.length
               ? template.tags.map(tag => (
@@ -48,25 +48,119 @@ const TemplateDetails = () => {
               : <span className="text-neutral-400 text-xs">No tags</span>
             }
           </div>
+          {template.packages && template.packages.length > 0 && (
+            <div className="mb-8">
+              <div className="font-mono text-cyan-300 text-base mb-3">📦 Dependencies</div>
+              <ul className="space-y-2">
+                {template.packages.map(pkg => (
+                  <li 
+                    key={pkg.id} 
+                    className="bg-cyan-900/20 border border-cyan-400/30 rounded-lg px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
+                  >
+                    <div className="flex flex-col min-w-0 flex-1">
+                      <span className="font-mono font-semibold text-cyan-200 text-sm truncate" title={pkg.name}>
+                        {pkg.name}
+                      </span>
+                      <div className="flex items-center gap-2 mt-1 flex-wrap">
+                        {pkg.version && (
+                          <span className="text-xs text-cyan-400 font-mono">
+                            v{pkg.version}
+                          </span>
+                        )}
+                        {pkg.packageManager !== undefined && (
+                          <span className="text-xs px-2 py-0.5 rounded bg-cyan-700/40 text-cyan-200 border border-cyan-500/30">
+                            {pkg.packageManager === 0 ? 'npm' : pkg.packageManager === 1 ? 'yarn' : pkg.packageManager === 2 ? 'pnpm' : 'other'}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    {pkg.url && (
+                      <a 
+                        href={pkg.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-xs text-cyan-300 hover:text-cyan-200 underline whitespace-nowrap flex-shrink-0"
+                      >
+                        View Package
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
           <div className="mb-8">
             <div className="font-mono text-cyan-300 text-base mb-2">Versions</div>
-            <ul className="space-y-3">
-              {template.versions?.length
-                ? template.versions.map(ver => (
-                    <li key={ver.id} className="bg-cyan-900/30 border border-cyan-400 rounded-lg px-5 py-3 text-cyan-100 font-mono text-sm flex flex-col">
-                      <span className="font-bold">v{ver.semVer}</span>
-                      {ver.changelog && <span className="mt-1 text-cyan-200">{ver.changelog}</span>}
-                      <span className="mt-1 text-cyan-400">Published: {ver.publishedUtc ? new Date(ver.publishedUtc).toLocaleDateString() : "Unknown"}</span>
-                      {ver.artifactUrl && (
-                        <a href={ver.artifactUrl} target="_blank" rel="noopener noreferrer" className="mt-2 text-cyan-300 underline hover:text-cyan-400">
-                          Download Artifact
-                        </a>
+            {template.templateVersions && template.templateVersions.length > 0 ? (
+              <ul className="space-y-3">
+                {template.templateVersions
+                  .sort((a, b) => {
+                    // Sort by isLatest first, then by createdAt descending
+                    if (a.isLatest && !b.isLatest) return -1;
+                    if (!a.isLatest && b.isLatest) return 1;
+                    const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                    const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                    return dateB - dateA;
+                  })
+                  .map(ver => (
+                    <li 
+                      key={ver.id} 
+                      className={`bg-cyan-900/30 border rounded-lg px-5 py-3 text-cyan-100 font-mono text-sm flex flex-col ${
+                        ver.isDeprecated ? 'border-red-400/40 opacity-60' : 'border-cyan-400'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="font-bold text-cyan-200">v{ver.version}</span>
+                        <div className="flex items-center gap-2">
+                          {ver.isLatest && (
+                            <span className="px-2 py-0.5 rounded bg-cyan-600/60 text-cyan-100 text-xs border border-cyan-400/40">
+                              Latest
+                            </span>
+                          )}
+                          {ver.isDeprecated && (
+                            <span className="px-2 py-0.5 rounded bg-red-600/60 text-red-100 text-xs border border-red-400/40">
+                              Deprecated
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      {ver.notes && (
+                        <span className="mt-1 text-cyan-200 text-xs leading-relaxed">{ver.notes}</span>
                       )}
+                      <span className="mt-1 text-cyan-400 text-xs">
+                        Released: {ver.createdAt ? new Date(ver.createdAt).toLocaleDateString() : "Unknown"}
+                      </span>
                     </li>
-                  ))
-                : <li className="text-neutral-400 text-xs">No versions</li>
-              }
-            </ul>
+                  ))}
+              </ul>
+            ) : template.mainDownloadUrl ? (
+              <div className="bg-cyan-900/30 border border-cyan-400 rounded-lg px-5 py-3 text-cyan-100 font-mono text-sm flex flex-col">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-bold text-cyan-200">Latest Release</span>
+                  <span className="text-xs text-cyan-400">
+                    {template.createdAt ? new Date(template.createdAt).toLocaleDateString() : "Unknown"}
+                  </span>
+                </div>
+                {template.longDescription && (
+                  <p className="text-cyan-200 text-xs mb-3 leading-relaxed">{template.longDescription}</p>
+                )}
+                <a 
+                  href={template.mainDownloadUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="inline-flex items-center gap-2 bg-cyan-600/80 hover:bg-cyan-600 text-white px-4 py-2 rounded-md transition-all text-sm font-semibold self-start"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  Download Template
+                </a>
+              </div>
+            ) : (
+              <div className="text-neutral-400 text-xs bg-cyan-900/20 border border-cyan-400/20 rounded-lg px-5 py-3">
+                No versions available yet
+              </div>
+            )}
           </div>
           <div className="mt-auto flex justify-end">
             <a
@@ -93,18 +187,22 @@ const TemplateDetails = () => {
           </div>
           <div>
             <div className="font-mono text-cyan-400 text-sm mb-1">Created</div>
-            <div className="text-cyan-100">{template.createdUtc ? new Date(template.createdUtc).toLocaleDateString() : "Unknown"}</div>
+            <div className="text-cyan-100">{template.createdAt ? new Date(template.createdAt).toLocaleDateString() : "Unknown"}</div>
           </div>
           <div>
             <div className="font-mono text-cyan-400 text-sm mb-1">Stats</div>
             <div className="flex flex-col gap-1 text-cyan-100">
               <span>
-                <span className="font-bold">{template.versions?.length ?? 0}</span> Versions
+                <span className="font-bold">{template.templateVersions?.length ?? 0}</span> Version{template.templateVersions?.length !== 1 ? 's' : ''}
               </span>
               <span>
-                <span className="font-bold">{template.comments?.length ?? 0}</span> Comments
+                <span className="font-bold">{template.comments?.length ?? 0}</span> Comment{template.comments?.length !== 1 ? 's' : ''}
               </span>
-              {/* Add more stats here if available */}
+              {template.templateVersions?.some(v => v.isLatest) && (
+                <span className="text-xs text-cyan-300 mt-1">
+                  Latest: v{template.templateVersions.find(v => v.isLatest)?.version}
+                </span>
+              )}
             </div>
           </div>
           {/* Optionally, add more info: license, last updated, etc. */}
@@ -129,18 +227,18 @@ const TemplateDetails = () => {
                 <div className="absolute inset-0 rounded-2xl pointer-events-none border-2 border-cyan-400 opacity-0 group-hover:opacity-60 transition-opacity duration-300 blur-sm"></div>
                 <div className="flex items-center mb-2">
                   <div className="font-mono text-cyan-200 text-sm font-semibold">
-                    {comment.user?.displayName || (
+                    {comment.userDisplayName || (
                       <span className="italic text-cyan-400/70">Anonymous</span>
                     )}
                   </div>
-                  {comment.isForDevelopers && (
+                  {comment.visibility === 1 && (
                     <span className="ml-2 px-2 py-0.5 rounded bg-cyan-700/60 text-cyan-100 text-xs font-mono border border-cyan-400/40">
                       Developer-only
                     </span>
                   )}
                 </div>
                 <div className="text-cyan-100 font-light text-base leading-relaxed">
-                  {comment.text}
+                  {comment.content}
                 </div>
               </div>
             ))

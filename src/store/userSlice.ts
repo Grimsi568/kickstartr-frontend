@@ -17,7 +17,7 @@ type UserProfile = {
   id?: string
   displayName?: string
   email?: string
-  createdUtc?: string
+  createdAt?: string
   licenses?: License[]
 }
 

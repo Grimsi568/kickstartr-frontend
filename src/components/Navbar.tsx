@@ -1,29 +1,24 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext';
+import { useState, useRef, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+
+import { useAuth } from '@/context/AuthContext'
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
-  const [open, setOpen] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
+  const { user, logout } = useAuth()
+  const [open, setOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
 
   // Close dropdown on outside click
   useEffect(() => {
-    if (!open) return;
+    if (!open) return
     function handleClick(e: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setOpen(false);
+        setOpen(false)
       }
-      console.log("user", user); // <-- Add this
     }
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
-  }, [open]);
-
-  // Add this for debugging:
-  useEffect(() => {
-    console.log("Navbar user:", user);
-  }, [user]);
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [open])
 
   return (
     <nav className="sticky top-0 z-40 bg-gradient-to-r from-gray-950 via-gray-900 to-gray-800 border-b border-gray-700 px-8 py-4 flex items-center justify-between shadow-lg">
@@ -80,7 +75,7 @@ const Navbar = () => {
         )}
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

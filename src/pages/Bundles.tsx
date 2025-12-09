@@ -8,7 +8,6 @@ const Bundles = () => {
   const [bundles, setBundles] = useState<components["schemas"]["BundleDto"][]>([])
   const [loading, setLoading] = useState(true)
   const { user } = useAuth();
-  console.log("user", !!user )
   useEffect(() => {
     (async () => {
       try {

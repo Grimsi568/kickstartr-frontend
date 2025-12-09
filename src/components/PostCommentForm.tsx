@@ -3,7 +3,7 @@ import { Api } from '@/lib/api'
 
 const PostCommentForm: React.FC<{ templateId: string }> = ({ templateId }) => {
   const [text, setText] = useState('')
-  const [isPublic, setIsPublic] = useState(true)
+  const [visibility, setVisibility] = useState<0 | 1>(0) // 0 = Public, 1 = DeveloperOnly
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -13,12 +13,13 @@ const PostCommentForm: React.FC<{ templateId: string }> = ({ templateId }) => {
     setSubmitting(true)
     setError(null)
     try {
-      await Api.postTemplateComment(templateId, {
+      await Api.postComment({
         comment: text,
-        isForDeveloper: !isPublic,
+        itemId: templateId,
+        visibility: visibility,
       })
       setText('')
-      setIsPublic(true)
+      setVisibility(0)
       setSuccess(true)
       setTimeout(() => setSuccess(false), 2000)
     } catch (err) {
@@ -45,8 +46,8 @@ const PostCommentForm: React.FC<{ templateId: string }> = ({ templateId }) => {
       <label className="flex items-center gap-2 text-cyan-200 font-mono text-sm">
         <input
           type="checkbox"
-          checked={isPublic}
-          onChange={e => setIsPublic(e.target.checked)}
+          checked={visibility === 0}
+          onChange={e => setVisibility(e.target.checked ? 0 : 1)}
           className="accent-cyan-400"
           disabled={submitting}
         />

@@ -1,4 +1,3 @@
-import React from 'react';
 
 const About = () => (
   <div className="container-max py-16">

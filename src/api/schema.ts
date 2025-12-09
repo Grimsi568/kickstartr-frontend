@@ -249,6 +249,51 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/Template/version/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["PostTemplateRequest"];
+                    "text/json": components["schemas"]["PostTemplateRequest"];
+                    "application/*+json": components["schemas"]["PostTemplateRequest"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["PostTemplateResponse"];
+                        "application/json": components["schemas"]["PostTemplateResponse"];
+                        "text/json": components["schemas"]["PostTemplateResponse"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/Template/upload-url": {
         parameters: {
             query?: never;
@@ -409,90 +454,98 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        AuthorDto: {
+        Bundle: {
             /** Format: uuid */
             id?: string;
-            email?: string;
-            displayName?: string;
+            name: string;
+            slug: string;
+            description?: string | null;
+            /** Format: int32 */
+            price?: number;
+            isActive?: boolean;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string | null;
+            bundleTemplates?: components["schemas"][];
+            comments?: components["schemas"]["Comment"][];
         };
+        Bundle2: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            slug: string;
+            description?: string | null;
+            /** Format: int32 */
+            price?: number;
+            isActive?: boolean;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string | null;
+            bundleTemplates?: components["schemas"];
+            comments?: components["schemas"];
+        } | null;
         BundleDto: {
             /** Format: uuid */
             id?: string;
-            name?: string;
+            name: string;
+            slug: string;
             description?: string | null;
-            /** Format: double */
+            /** Format: int32 */
             price?: number;
-            currency?: components["schemas"]["Currency"];
-            visibility?: components["schemas"]["Visibility"];
+            isActive?: boolean;
             /** Format: date-time */
-            createdUtc?: string;
-            items?: components["schemas"]["TemplateDto"][];
+            createdAt?: string;
+            templates?: components["schemas"]["TemplateListItemDto"][];
         };
-        BundleDto2: {
+        BundleTemplate: {
+            /** Format: uuid */
+            bundleId?: string;
+            bundle?: components["schemas"]["Bundle"];
+            /** Format: uuid */
+            templateId?: string;
+            template?: components["schemas"]["Template5"];
+            /** Format: int32 */
+            sortOrder?: number;
+        };
+        Comment: {
             /** Format: uuid */
             id?: string;
-            name?: string;
-            description?: string | null;
-            /** Format: double */
-            price?: number;
-            currency?: components["schemas"]["Currency"];
+            /** Format: uuid */
+            templateId?: string | null;
+            template?: components["schemas"]["Template3"];
+            /** Format: uuid */
+            bundleId?: string | null;
+            bundle?: components["schemas"]["Bundle2"];
+            /** Format: uuid */
+            userId?: string | null;
+            user?: components["schemas"]["User"];
+            content: string;
             visibility?: components["schemas"]["Visibility"];
             /** Format: date-time */
-            createdUtc?: string;
-            items?: components["schemas"]["TemplateDto3"][];
+            createdAt?: string;
         };
         CommentDto: {
             /** Format: uuid */
             id?: string;
-            user?: components["schemas"]["AuthorDto"];
-            template?: components["schemas"]["TemplateDto2"];
-            isForDevelopers?: boolean;
-            text?: string;
+            content: string;
+            /** Format: date-time */
+            createdAt?: string;
+            userDisplayName?: string | null;
+            visibility?: components["schemas"]["Visibility"];
         };
-        CommentDto2: {
-            /** Format: uuid */
-            id?: string;
-            user?: components["schemas"]["AuthorDto"];
-            template?: components["schemas"]["TemplateDto4"];
-            isForDevelopers?: boolean;
-            text?: string;
-        };
-        CommentDto3: {
-            /** Format: uuid */
-            id?: string;
-            user?: components["schemas"]["AuthorDto"];
-            template?: components["schemas"]["TemplateDto6"];
-            isForDevelopers?: boolean;
-            text?: string;
-        };
-        CommentDto4: {
-            /** Format: uuid */
-            id?: string;
-            user?: components["schemas"]["AuthorDto"];
-            template?: components["schemas"]["TemplateDto8"];
-            isForDevelopers?: boolean;
-            text?: string;
-        };
-        CommentDto5: {
-            /** Format: uuid */
-            id?: string;
-            user?: components["schemas"]["AuthorDto"];
-            template?: components["schemas"]["TemplateDto10"];
-            isForDevelopers?: boolean;
-            text?: string;
-        };
-        Currency: number;
         GetAllPublicBundlesResponse: {
             bundles?: components["schemas"]["BundleDto"][];
         };
         GetAllPublicTemplatesResponse: {
-            templates?: components["schemas"]["TemplateDto5"][];
+            templates?: components["schemas"]["TemplateListItemDto"][];
         };
         GetSingleBundleResponse: {
-            bundle: components["schemas"]["BundleDto2"];
+            bundle: components["schemas"]["BundleDto"];
         };
         GetSingleTemplateResponse: {
-            template?: components["schemas"]["TemplateDto7"];
+            template?: components["schemas"]["TemplateDetailDto"];
         };
         GetUploadUrlRequest: {
             templateSlug?: string;
@@ -504,20 +557,39 @@ export interface components {
         GetUserInfoResponse: {
             userInfo: components["schemas"]["UserDto"];
         };
-        LicenseKeyDto: {
+        OAuthAccount: {
             /** Format: uuid */
             id?: string;
-            key?: string;
-            template?: components["schemas"]["TemplateDto10"];
-            /** Format: date-time */
-            issuedUtc?: string;
-            /** Format: date-time */
-            revokedUtc?: string | null;
+            /** Format: uuid */
+            userId?: string;
+            user?: components["schemas"]["User2"];
+            provider: string;
+            providerUserId: string;
+            userName?: string | null;
+            avatarUrl?: string | null;
         };
+        Package: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            version?: string | null;
+            packageManager?: components["schemas"]["PackageManager"];
+            url?: string | null;
+            templatePackages?: components["schemas"][];
+        };
+        PackageDto: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            version?: string | null;
+            packageManager?: components["schemas"]["PackageManager"];
+            url?: string | null;
+        };
+        PackageManager: number;
         PostCommentRequest: {
             comment?: string;
-            templateId?: string;
-            isForDeveloper?: boolean;
+            itemId?: string;
+            visibility?: components["schemas"]["Visibility"];
         };
         PostTemplateRequest: {
             templateId?: string | null;
@@ -537,221 +609,275 @@ export interface components {
         Tag: {
             /** Format: uuid */
             id?: string;
-            name?: string;
+            name: string;
+            slug: string;
+            category?: string | null;
+            templateTags?: components["schemas"][];
         };
         TagDto: {
             /** Format: uuid */
             id?: string;
-            name?: string;
+            name: string;
+            slug: string;
+            category?: string | null;
         };
-        TemplateDto: {
+        Template: {
             /** Format: uuid */
             id?: string;
-            name?: string;
-            slug?: string;
-            description?: string | null;
-            visibility?: components["schemas"]["Visibility"];
-            price?: string;
-            currency?: components["schemas"]["Currency"];
-            author?: components["schemas"]["AuthorDto"];
-            /** Format: uuid */
-            currentVersionId?: string | null;
-            currentVersion?: components["schemas"]["TemplateVersionDto"];
+            name: string;
+            slug: string;
+            shortDescription?: string | null;
+            longDescription?: string | null;
+            isFree?: boolean;
+            /** Format: int32 */
+            price?: number;
+            authorName?: string;
+            demoUrl?: string | null;
+            techStackSummary?: string | null;
             /** Format: date-time */
-            createdUtc?: string;
-            versions?: components["schemas"]["TemplateVersionDto"][];
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string | null;
+            templateTags?: components["schemas"][];
+            templatePackages?: components["schemas"]["TemplatePackage"][];
+            bundleTemplates?: components["schemas"];
+            assets?: components["schemas"];
+            comments?: components["schemas"];
+            versions?: components["schemas"];
+        };
+        Template2: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            slug: string;
+            shortDescription?: string | null;
+            longDescription?: string | null;
+            isFree?: boolean;
+            /** Format: int32 */
+            price?: number;
+            authorName?: string;
+            demoUrl?: string | null;
+            techStackSummary?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string | null;
+            templateTags?: components["schemas"];
+            templatePackages?: components["schemas"];
+            bundleTemplates?: components["schemas"]["BundleTemplate"][];
+            assets?: components["schemas"];
+            comments?: components["schemas"];
+            versions?: components["schemas"];
+        };
+        Template3: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            slug: string;
+            shortDescription?: string | null;
+            longDescription?: string | null;
+            isFree?: boolean;
+            /** Format: int32 */
+            price?: number;
+            authorName?: string;
+            demoUrl?: string | null;
+            techStackSummary?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string | null;
+            templateTags?: components["schemas"];
+            templatePackages?: components["schemas"];
+            bundleTemplates?: components["schemas"];
+            assets?: components["schemas"]["TemplateAsset"][];
+            comments?: components["schemas"];
+            versions?: components["schemas"];
+        } | null;
+        Template4: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            slug: string;
+            shortDescription?: string | null;
+            longDescription?: string | null;
+            isFree?: boolean;
+            /** Format: int32 */
+            price?: number;
+            authorName?: string;
+            demoUrl?: string | null;
+            techStackSummary?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string | null;
+            templateTags?: components["schemas"];
+            templatePackages?: components["schemas"];
+            bundleTemplates?: components["schemas"];
+            assets?: components["schemas"];
+            comments?: components["schemas"][];
+            versions?: components["schemas"]["TemplateVersion"][];
+        };
+        Template5: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            slug: string;
+            shortDescription?: string | null;
+            longDescription?: string | null;
+            isFree?: boolean;
+            /** Format: int32 */
+            price?: number;
+            authorName?: string;
+            demoUrl?: string | null;
+            techStackSummary?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string | null;
+            templateTags?: components["schemas"];
+            templatePackages?: components["schemas"];
+            bundleTemplates?: components["schemas"];
+            assets?: components["schemas"];
+            comments?: components["schemas"];
+            versions?: components["schemas"];
+        };
+        Template6: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            slug: string;
+            shortDescription?: string | null;
+            longDescription?: string | null;
+            isFree?: boolean;
+            /** Format: int32 */
+            price?: number;
+            authorName?: string;
+            demoUrl?: string | null;
+            techStackSummary?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string | null;
+            templateTags?: components["schemas"];
+            templatePackages?: components["schemas"];
+            bundleTemplates?: components["schemas"];
+            assets?: components["schemas"];
+            comments?: components["schemas"];
+            versions?: components["schemas"];
+        } | null;
+        TemplateAsset: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            templateId?: string;
+            template?: components["schemas"]["Template4"];
+            type?: components["schemas"]["TemplateAssetType"];
+            blobContainer: string;
+            blobName: string;
+            fileName?: string | null;
+            contentType?: string | null;
+            /** Format: int64 */
+            sizeBytes?: number | null;
+            /** Format: date-time */
+            createdAt?: string;
+            isActive?: boolean;
+        };
+        TemplateAsset2: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            templateId?: string;
+            template?: components["schemas"];
+            type?: components["schemas"]["TemplateAssetType"];
+            blobContainer: string;
+            blobName: string;
+            fileName?: string | null;
+            contentType?: string | null;
+            /** Format: int64 */
+            sizeBytes?: number | null;
+            /** Format: date-time */
+            createdAt?: string;
+            isActive?: boolean;
+        } | null;
+        TemplateAssetType: number;
+        TemplateDetailDto: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            slug: string;
+            shortDescription?: string | null;
+            longDescription?: string | null;
+            isFree?: boolean;
+            /** Format: int32 */
+            price?: number;
+            authorName?: string;
+            techStackSummary?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
             tags?: components["schemas"]["TagDto"][];
+            packages?: components["schemas"]["PackageDto"][];
+            mainDownloadUrl?: string | null;
+            thumbnailUrl?: string | null;
             comments?: components["schemas"]["CommentDto"][];
+            templateVersions?: components["schemas"]["TemplateVersionDto"][];
         };
-        TemplateDto10: {
+        TemplateListItemDto: {
             /** Format: uuid */
             id?: string;
-            name?: string;
-            slug?: string;
-            description?: string | null;
-            visibility?: components["schemas"]["Visibility"];
-            price?: string;
-            currency?: components["schemas"]["Currency"];
-            author?: components["schemas"];
-            /** Format: uuid */
-            currentVersionId?: string | null;
-            currentVersion?: components["schemas"];
+            name: string;
+            slug: string;
+            shortDescription?: string | null;
+            isFree?: boolean;
+            /** Format: int32 */
+            price?: number;
+            techStackSummary?: string | null;
             /** Format: date-time */
-            createdUtc?: string;
-            versions?: components["schemas"];
-            tags?: components["schemas"];
-            comments?: components["schemas"];
-        };
-        TemplateDto2: {
-            /** Format: uuid */
-            id?: string;
-            name?: string;
-            slug?: string;
-            description?: string | null;
-            visibility?: components["schemas"]["Visibility"];
-            price?: string;
-            currency?: components["schemas"]["Currency"];
-            author?: components["schemas"];
-            /** Format: uuid */
-            currentVersionId?: string | null;
-            currentVersion?: components["schemas"];
-            /** Format: date-time */
-            createdUtc?: string;
-            versions?: components["schemas"];
-            tags?: components["schemas"];
-            comments?: components["schemas"];
-        };
-        TemplateDto3: {
-            /** Format: uuid */
-            id?: string;
-            name?: string;
-            slug?: string;
-            description?: string | null;
-            visibility?: components["schemas"]["Visibility"];
-            price?: string;
-            currency?: components["schemas"]["Currency"];
-            author?: components["schemas"]["AuthorDto"];
-            /** Format: uuid */
-            currentVersionId?: string | null;
-            currentVersion?: components["schemas"]["TemplateVersionDto"];
-            /** Format: date-time */
-            createdUtc?: string;
-            versions?: components["schemas"]["TemplateVersionDto"][];
+            createdAt?: string;
             tags?: components["schemas"]["TagDto"][];
-            comments?: components["schemas"]["CommentDto2"][];
+            thumbnailUrl?: string | null;
         };
-        TemplateDto4: {
+        TemplatePackage: {
             /** Format: uuid */
-            id?: string;
-            name?: string;
-            slug?: string;
-            description?: string | null;
-            visibility?: components["schemas"]["Visibility"];
-            price?: string;
-            currency?: components["schemas"]["Currency"];
-            author?: components["schemas"];
+            templateId?: string;
+            template?: components["schemas"]["Template2"];
             /** Format: uuid */
-            currentVersionId?: string | null;
-            currentVersion?: components["schemas"];
-            /** Format: date-time */
-            createdUtc?: string;
-            versions?: components["schemas"];
-            tags?: components["schemas"];
-            comments?: components["schemas"];
-        };
-        TemplateDto5: {
-            /** Format: uuid */
-            id?: string;
-            name?: string;
-            slug?: string;
-            description?: string | null;
-            visibility?: components["schemas"]["Visibility"];
-            price?: string;
-            currency?: components["schemas"]["Currency"];
-            author?: components["schemas"]["AuthorDto"];
-            /** Format: uuid */
-            currentVersionId?: string | null;
-            currentVersion?: components["schemas"]["TemplateVersionDto"];
-            /** Format: date-time */
-            createdUtc?: string;
-            versions?: components["schemas"]["TemplateVersionDto"][];
-            tags?: components["schemas"]["TagDto"][];
-            comments?: components["schemas"]["CommentDto3"][];
-        };
-        TemplateDto6: {
-            /** Format: uuid */
-            id?: string;
-            name?: string;
-            slug?: string;
-            description?: string | null;
-            visibility?: components["schemas"]["Visibility"];
-            price?: string;
-            currency?: components["schemas"]["Currency"];
-            author?: components["schemas"];
-            /** Format: uuid */
-            currentVersionId?: string | null;
-            currentVersion?: components["schemas"];
-            /** Format: date-time */
-            createdUtc?: string;
-            versions?: components["schemas"];
-            tags?: components["schemas"];
-            comments?: components["schemas"];
-        };
-        TemplateDto7: {
-            /** Format: uuid */
-            id?: string;
-            name?: string;
-            slug?: string;
-            description?: string | null;
-            visibility?: components["schemas"]["Visibility"];
-            price?: string;
-            currency?: components["schemas"]["Currency"];
-            author?: components["schemas"]["AuthorDto"];
-            /** Format: uuid */
-            currentVersionId?: string | null;
-            currentVersion?: components["schemas"]["TemplateVersionDto"];
-            /** Format: date-time */
-            createdUtc?: string;
-            versions?: components["schemas"]["TemplateVersionDto"][];
-            tags?: components["schemas"]["TagDto"][];
-            comments?: components["schemas"]["CommentDto4"][];
-        };
-        TemplateDto8: {
-            /** Format: uuid */
-            id?: string;
-            name?: string;
-            slug?: string;
-            description?: string | null;
-            visibility?: components["schemas"]["Visibility"];
-            price?: string;
-            currency?: components["schemas"]["Currency"];
-            author?: components["schemas"];
-            /** Format: uuid */
-            currentVersionId?: string | null;
-            currentVersion?: components["schemas"];
-            /** Format: date-time */
-            createdUtc?: string;
-            versions?: components["schemas"];
-            tags?: components["schemas"];
-            comments?: components["schemas"];
-        };
-        TemplateDto9: {
-            /** Format: uuid */
-            id?: string;
-            name?: string;
-            slug?: string;
-            description?: string | null;
-            visibility?: components["schemas"]["Visibility"];
-            price?: string;
-            currency?: components["schemas"]["Currency"];
-            author?: components["schemas"]["AuthorDto"];
-            /** Format: uuid */
-            currentVersionId?: string | null;
-            currentVersion?: components["schemas"]["TemplateVersionDto"];
-            /** Format: date-time */
-            createdUtc?: string;
-            versions?: components["schemas"]["TemplateVersionDto"][];
-            tags?: components["schemas"]["TagDto"][];
-            comments?: components["schemas"]["CommentDto5"][];
+            packageId?: string;
+            package?: components["schemas"]["Package"];
+            notes?: string | null;
         };
         TemplateTag: {
             /** Format: uuid */
             templateId?: string;
+            template?: components["schemas"]["Template"];
             /** Format: uuid */
             tagId?: string;
             tag?: components["schemas"]["Tag"];
         };
-        TemplateVersionDto: {
+        TemplateVersion: {
             /** Format: uuid */
             id?: string;
             /** Format: uuid */
             templateId?: string;
-            semVer?: string;
-            changelog?: string | null;
-            artifactUrl?: string;
-            sha256?: string | null;
+            template?: components["schemas"]["Template5"];
+            version: string;
+            notes?: string | null;
+            /** Format: uuid */
+            assetId?: string | null;
+            asset?: components["schemas"]["TemplateAsset2"];
             /** Format: date-time */
-            publishedUtc?: string;
+            createdAt?: string;
+            isDeprecated?: boolean;
+            isLatest?: boolean;
+        };
+        TemplateVersionDto: {
+            /** Format: uuid */
+            id?: string;
+            version: string;
+            notes?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            isDeprecated?: boolean;
+            isLatest?: boolean;
         };
         UploadUrlDto: {
             /** Format: uri */
@@ -762,15 +888,88 @@ export interface components {
                 [key: string]: string;
             };
         };
+        User: {
+            /** Format: uuid */
+            id?: string;
+            email: string;
+            displayName: string;
+            avatarUrl?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            oAuthAccounts?: components["schemas"]["OAuthAccount"][];
+            purchases?: components["schemas"];
+            favorites?: components["schemas"];
+        } | null;
+        User2: {
+            /** Format: uuid */
+            id?: string;
+            email: string;
+            displayName: string;
+            avatarUrl?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            oAuthAccounts?: components["schemas"];
+            purchases?: components["schemas"]["UserPurchase"][];
+            favorites?: components["schemas"];
+        };
+        User3: {
+            /** Format: uuid */
+            id?: string;
+            email: string;
+            displayName: string;
+            avatarUrl?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            oAuthAccounts?: components["schemas"];
+            purchases?: components["schemas"];
+            favorites?: components["schemas"]["UserFavorite"][];
+        };
+        User4: {
+            /** Format: uuid */
+            id?: string;
+            email: string;
+            displayName: string;
+            avatarUrl?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            oAuthAccounts?: components["schemas"];
+            purchases?: components["schemas"];
+            favorites?: components["schemas"];
+        };
         UserDto: {
             /** Format: uuid */
             id?: string;
-            email?: string;
-            displayName?: string;
+            email: string;
+            displayName: string;
+            avatarUrl?: string | null;
             /** Format: date-time */
-            createdUtc?: string;
-            templatesAuthored?: components["schemas"]["TemplateDto9"][];
-            licenses?: components["schemas"]["LicenseKeyDto"][];
+            createdAt?: string;
+        };
+        UserFavorite: {
+            /** Format: uuid */
+            userId?: string;
+            user?: components["schemas"]["User4"];
+            /** Format: uuid */
+            templateId?: string;
+            template?: components["schemas"]["Template5"];
+            /** Format: date-time */
+            addedAt?: string;
+        };
+        UserPurchase: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            userId?: string;
+            user?: components["schemas"]["User3"];
+            /** Format: uuid */
+            templateId?: string | null;
+            template?: components["schemas"]["Template6"];
+            /** Format: uuid */
+            bundleId?: string | null;
+            bundle?: components["schemas"]["Bundle2"];
+            /** Format: date-time */
+            purchasedAt?: string;
+            paymentId?: string | null;
         };
         Visibility: number;
     };

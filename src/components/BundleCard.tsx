@@ -1,11 +1,10 @@
-import React from 'react'
 import type { components } from '@/api/schema'
 
-type Props = {
+type BundleCardProps = {
   bundle: components["schemas"]["BundleDto"]
 }
 
-const BundleCard = ({ bundle }: Props) => (
+const BundleCard = ({ bundle }: BundleCardProps) => (
   <div
     className="relative group overflow-hidden rounded-2xl bg-white/10 backdrop-blur-lg border border-cyan-400 shadow-lg flex flex-col transition-all duration-300 hover:shadow-cyan-400/50 hover:border-cyan-300"
     style={{
@@ -21,19 +20,19 @@ const BundleCard = ({ bundle }: Props) => (
         {bundle.name}
       </h2>
       <span className={`ml-2 px-4 py-1 rounded-full text-xs font-semibold border border-cyan-400 shadow-cyan-400/30 shadow-sm bg-cyan-900/60 text-cyan-200`}>
-        {bundle.price != null ? `${bundle.price} ${bundle.currency}` : "Free"}
+        {bundle.price != null ? `$${bundle.price}` : "Free"}
       </span>
     </div>
     <div className="relative z-10 flex-1 flex flex-col px-7 pb-4">
       <p className="text-neutral-200 mb-4 font-light">{bundle.description}</p>
       <div className="flex flex-wrap gap-2 mb-6">
-        {bundle.items?.length
-          ? bundle.items.map(item => (
-              <span key={item.id} className="px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-cyan-400/40 via-blue-400/30 to-cyan-600/40 text-cyan-100 border border-cyan-300 shadow-cyan-400/10 shadow-sm">
-                {item.name}
+        {bundle.templates?.length
+          ? bundle.templates.map(template => (
+              <span key={template.id} className="px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-cyan-400/40 via-blue-400/30 to-cyan-600/40 text-cyan-100 border border-cyan-300 shadow-cyan-400/10 shadow-sm">
+                {template.name}
               </span>
             ))
-          : <span className="text-neutral-400 text-xs">No items</span>
+          : <span className="text-neutral-400 text-xs">No templates</span>
         }
       </div>
       <div className="mt-auto flex justify-end">
@@ -46,7 +45,7 @@ const BundleCard = ({ bundle }: Props) => (
       </div>
     </div>
     <div className="relative z-10 px-7 pb-4 text-xs text-cyan-300 font-mono">
-      Created: {bundle.createdUtc ? new Date(bundle.createdUtc).toLocaleDateString() : "Unknown"}
+      Created: {bundle.createdAt ? new Date(bundle.createdAt).toLocaleDateString() : "Unknown"}
     </div>
     <div className="absolute inset-0 rounded-2xl pointer-events-none border-2 border-cyan-400 opacity-0 group-hover:opacity-80 transition-opacity duration-300 blur-sm"></div>
   </div>
