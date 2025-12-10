@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import { Api } from "../../lib/api";
 import type { components } from "../../api/schema";
 
@@ -117,14 +118,34 @@ const BundleCreatePage: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-10 text-neutral-900 dark:text-neutral-100">
-      <div className="max-w-4xl mx-auto bg-white dark:bg-neutral-900 shadow-sm rounded-lg border border-neutral-200 dark:border-neutral-700 p-8">
-        <h1 className="text-2xl font-semibold mb-6">Create Bundle</h1>
-        <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800 px-4 py-10">
+      <div className="container-max max-w-3xl mx-auto">
+        <div className="mb-8">
+          <Link
+            to="/my-page"
+            className="inline-flex items-center gap-2 px-4 py-2 text-cyan-400 hover:text-cyan-300 transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Dashboard
+          </Link>
+        </div>
+
+        <div className="bg-white/5 backdrop-blur-lg shadow-2xl rounded-2xl border border-cyan-400/30 p-8">
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-4xl">🎁</span>
+              <h1 className="text-3xl font-bold text-cyan-300 font-mono">Create Bundle</h1>
+            </div>
+            <p className="text-cyan-400/70 text-sm">Create a bundle of templates for users to purchase together</p>
+          </div>
+
+        <form onSubmit={handleSubmit} className="space-y-8">
           <div className="grid gap-6 md:grid-cols-2">
             {/* Name */}
             <div>
-              <label className="block text-sm font-medium mb-1 text-neutral-700 dark:text-neutral-200" htmlFor="name">
+              <label className="block text-sm font-semibold text-cyan-300 mb-2.5" htmlFor="name">
                 Bundle Name *
               </label>
               <input
@@ -133,14 +154,14 @@ const BundleCreatePage: React.FC = () => {
                 value={form.name}
                 onChange={handleChange}
                 required
-                className="w-full rounded-md border border-neutral-300 dark:border-neutral-500 bg-white dark:bg-neutral-800/70 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-500 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full rounded-lg border border-cyan-400/30 bg-gray-900/50 text-cyan-100 placeholder-cyan-600/40 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400 transition-all"
                 placeholder="Starter Pack"
               />
             </div>
 
             {/* Slug */}
             <div>
-              <label className="block text-sm font-medium mb-1 text-neutral-700 dark:text-neutral-200" htmlFor="slug">
+              <label className="block text-sm font-semibold text-cyan-300 mb-2.5" htmlFor="slug">
                 Slug *
               </label>
               <input
@@ -149,15 +170,15 @@ const BundleCreatePage: React.FC = () => {
                 value={form.slug}
                 onChange={handleChange}
                 required
-                className="w-full rounded-md border border-neutral-300 dark:border-neutral-500 bg-white dark:bg-neutral-800/70 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-500 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full rounded-lg border border-cyan-400/30 bg-gray-900/50 text-cyan-100 placeholder-cyan-600/40 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400 transition-all"
                 placeholder="starter-pack"
               />
-              <p className="mt-1 text-xs text-neutral-600 dark:text-neutral-400">Used in URLs.</p>
+              <p className="mt-2 text-xs text-cyan-400/60">Used in URLs.</p>
             </div>
 
             {/* Price */}
             <div>
-              <label className="block text-sm font-medium mb-1 text-neutral-700 dark:text-neutral-200" htmlFor="price">
+              <label className="block text-sm font-semibold text-cyan-300 mb-2.5" htmlFor="price">
                 Price (USD)
               </label>
               <input
@@ -167,31 +188,31 @@ const BundleCreatePage: React.FC = () => {
                 step="0.01"
                 value={form.price}
                 onChange={handleChange}
-                className="w-full rounded-md border border-neutral-300 dark:border-neutral-500 bg-white dark:bg-neutral-800/70 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-500 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="w-full rounded-lg border border-cyan-400/30 bg-gray-900/50 text-cyan-100 placeholder-cyan-600/40 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400 transition-all"
                 placeholder="0.00"
               />
             </div>
 
             {/* Is Active */}
             <div>
-              <label className="block text-sm font-medium mb-1 text-neutral-700 dark:text-neutral-200" htmlFor="isActive">
+              <label className="block text-sm font-semibold text-cyan-300 mb-2.5" htmlFor="isActive">
                 Status
               </label>
-              <label className="flex items-center gap-2 mt-2">
+              <label className="flex items-center gap-3 mt-4">
                 <input
                   type="checkbox"
                   checked={form.isActive}
                   onChange={e => setForm(prev => ({ ...prev, isActive: e.target.checked }))}
-                  className="rounded border-neutral-300 dark:border-neutral-500"
+                  className="w-5 h-5 rounded border-cyan-400/30 bg-gray-900/50 text-cyan-500 focus:ring-2 focus:ring-cyan-400/50"
                 />
-                <span className="text-sm text-neutral-700 dark:text-neutral-200">Active (publicly visible)</span>
+                <span className="text-sm text-cyan-200">Active (publicly visible)</span>
               </label>
             </div>
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-medium mb-1 text-neutral-700 dark:text-neutral-200" htmlFor="description">
+            <label className="block text-sm font-semibold text-cyan-300 mb-2.5" htmlFor="description">
               Description
             </label>
             <textarea
@@ -200,48 +221,48 @@ const BundleCreatePage: React.FC = () => {
               value={form.description}
               onChange={handleChange}
               rows={4}
-              className="w-full rounded-md border border-neutral-300 dark:border-neutral-500 bg-white dark:bg-neutral-800/70 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-500 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-y"
+              className="w-full rounded-lg border border-cyan-400/30 bg-gray-900/50 text-cyan-100 placeholder-cyan-600/40 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400 transition-all resize-y"
               placeholder="Describe what's included in this bundle..."
             />
           </div>
 
           {/* Templates Selection */}
           <div>
-            <label className="block text-sm font-medium mb-2 text-neutral-700 dark:text-neutral-200">
+            <label className="block text-sm font-semibold text-cyan-300 mb-2.5">
               Templates * (Select at least one)
             </label>
             {loadingTemplates ? (
-              <p className="text-sm text-neutral-600 dark:text-neutral-400">Loading templates...</p>
+              <p className="text-sm text-cyan-400/60">Loading templates...</p>
             ) : templates.length === 0 ? (
-              <p className="text-sm text-neutral-600 dark:text-neutral-400">No templates available. Create templates first.</p>
+              <p className="text-sm text-cyan-400/60">No templates available. Create templates first.</p>
             ) : (
-              <div className="border border-neutral-300 dark:border-neutral-500 rounded-md p-4 max-h-96 overflow-y-auto space-y-2">
+              <div className="border border-cyan-400/30 rounded-lg p-4 max-h-96 overflow-y-auto space-y-2 bg-gray-900/30">
                 {templates.map(template => (
                   <label
                     key={template.id}
-                    className="flex items-start gap-3 p-3 rounded-md hover:bg-neutral-100 dark:hover:bg-neutral-800 cursor-pointer transition"
+                    className="flex items-start gap-3 p-3 rounded-lg hover:bg-cyan-500/10 border border-transparent hover:border-cyan-400/20 cursor-pointer transition-all"
                   >
                     <input
                       type="checkbox"
                       checked={form.templateIds.includes(template.id!)}
                       onChange={() => toggleTemplate(template.id!)}
-                      className="mt-1 rounded border-neutral-300 dark:border-neutral-500"
+                      className="mt-1 w-5 h-5 rounded border-cyan-400/30 bg-gray-900/50 text-cyan-500 focus:ring-2 focus:ring-cyan-400/50"
                     />
                     <div className="flex-1 min-w-0">
-                      <div className="font-medium text-sm text-neutral-900 dark:text-neutral-100">
+                      <div className="font-medium text-sm text-cyan-100">
                         {template.name}
                       </div>
                       {template.shortDescription && (
-                        <div className="text-xs text-neutral-600 dark:text-neutral-400 mt-0.5">
+                        <div className="text-xs text-cyan-400/70 mt-0.5">
                           {template.shortDescription}
                         </div>
                       )}
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="text-xs text-neutral-500 dark:text-neutral-500">
+                        <span className="text-xs text-cyan-500/80">
                           {template.isFree ? "Free" : `$${template.price}`}
                         </span>
                         {template.tags && template.tags.length > 0 && (
-                          <span className="text-xs text-neutral-500 dark:text-neutral-500">
+                          <span className="text-xs text-cyan-500/80">
                             • {template.tags.map(t => t.name).join(", ")}
                           </span>
                         )}
@@ -251,42 +272,37 @@ const BundleCreatePage: React.FC = () => {
                 ))}
               </div>
             )}
-            <p className="mt-2 text-xs text-neutral-600 dark:text-neutral-400">
+            <p className="mt-2 text-xs text-cyan-400/60">
               Selected: {form.templateIds.length} template(s)
             </p>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 pt-4">
             <button
               type="submit"
               disabled={isSubmitting || !canSubmit}
-              className="inline-flex items-center justify-center gap-2 rounded-md bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium px-5 py-2.5 transition-colors"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold px-6 py-3 shadow-lg shadow-cyan-500/20 transition-all"
             >
               {isSubmitting && (
                 <span className="inline-block h-4 w-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
               )}
               {isSubmitting ? "Creating…" : "Create Bundle"}
             </button>
-            {status && (
-              <span
-                className={
-                  "text-sm font-medium " +
-                  (error
-                    ? "text-red-600 dark:text-red-400"
-                    : "text-green-600 dark:text-green-400")
-                }
-              >
+            {status && !error && (
+              <span className="text-sm font-medium text-green-400 flex items-center gap-2">
+                <span className="inline-block h-2 w-2 rounded-full bg-green-400"></span>
                 {status}
               </span>
             )}
           </div>
           {error && (
-            <div className="rounded-md border border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-900/30 px-4 py-3 text-sm text-red-800 dark:text-red-300">
-              {error}
+            <div className="rounded-lg border border-red-400/30 bg-red-500/10 px-4 py-3.5 text-sm text-red-300 backdrop-blur-sm">
+              <span className="font-semibold">Error:</span> {error}
             </div>
           )}
         </form>
+      </div>
       </div>
     </div>
   );

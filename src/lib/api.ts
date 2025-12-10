@@ -5,13 +5,17 @@ import {
   mockBundles,
   getMockTemplateById,
   getMockBundleById,
-  mockUser
+  mockUser,
+  mockAdminUser
 } from './mockData'
 
 const API_URL = import.meta.env.VITE_API_URL || ''
 
 // Toggle this to switch between real API and mock data
 const USE_MOCK_DATA = import.meta.env.VITE_USE_MOCK_DATA === 'true'
+
+// Toggle mock user role: set to true for admin, false for regular user
+const MOCK_AS_ADMIN = import.meta.env.VITE_MOCK_AS_ADMIN === 'true'
 
 // Helper to simulate API delay
 const delay = (ms: number = 500) => new Promise(resolve => setTimeout(resolve, ms))
@@ -36,7 +40,7 @@ export const Api = {
   async me() {
     if (USE_MOCK_DATA) {
       await delay();
-      return mockUser;
+      return MOCK_AS_ADMIN ? mockAdminUser : mockUser;
     }
     const res = await axios.get(`${API_URL}/api/User/me`, { withCredentials: true })
     return res.data
@@ -106,7 +110,7 @@ export const Api = {
   async getUserProfile() {
     if (USE_MOCK_DATA) {
       await delay();
-      return mockUser;
+      return MOCK_AS_ADMIN ? mockAdminUser : mockUser;
     }
     const res = await axios.get(`${API_URL}/api/User/userProfile`, { withCredentials: true })
     return res.data
@@ -119,6 +123,16 @@ export const Api = {
       return { id: 'mock-template-' + Date.now() };
     }
     const res = await axios.post(`${API_URL}/api/Template`, payload, { withCredentials: true })
+    return res.data
+  },
+
+  // Create template version for existing template
+  async createTemplateVersion(templateId: string, payload: components["schemas"]["PostTemplateRequest"]): Promise<components["schemas"]["PostTemplateResponse"]> {
+    if (USE_MOCK_DATA) {
+      await delay(1000);
+      return { id: 'mock-version-' + Date.now() };
+    }
+    const res = await axios.post(`${API_URL}/api/Template/version/${templateId}`, payload, { withCredentials: true })
     return res.data
   },
 
@@ -165,5 +179,69 @@ export const Api = {
         }
       }
     })
+  },
+
+  // Get all tags
+  async getTags(): Promise<components["schemas"]["TagDto"][]> {
+    if (USE_MOCK_DATA) {
+      await delay(300);
+      // Return unique tags from mock templates
+      const allTags = mockTemplates.flatMap(t => t.tags || []);
+      const uniqueTags = allTags.filter((tag, index, self) => 
+        index === self.findIndex(t => t.id === tag.id)
+      );
+      return uniqueTags;
+    }
+    const res = await axios.get(`${API_URL}/api/Tag`, { withCredentials: true })
+    return res.data.tags || []
+  },
+
+  // Tag creation
+  async createTag(payload: components["schemas"]["Tag2"]): Promise<components["schemas"]["TagDto"]> {
+    if (USE_MOCK_DATA) {
+      await delay(1000);
+      return {
+        id: 'mock-tag-' + Date.now(),
+        name: payload.name,
+        slug: payload.slug,
+        category: payload.category || null
+      };
+    }
+    const res = await axios.post(`${API_URL}/api/Tag`, payload, { withCredentials: true })
+    return res.data
+  },
+
+  // Tag deletion
+  async deleteTag(id: string): Promise<void> {
+    if (USE_MOCK_DATA) {
+      await delay(500);
+      return;
+    }
+    await axios.delete(`${API_URL}/api/Tag/${id}`, { withCredentials: true })
+  },
+
+  // Package creation
+  async createPackage(payload: components["schemas"]["Package"]): Promise<components["schemas"]["PackageDto"]> {
+    if (USE_MOCK_DATA) {
+      await delay(1000);
+      return {
+        id: 'mock-package-' + Date.now(),
+        name: payload.name,
+        version: payload.version || null,
+        packageManager: payload.packageManager,
+        url: payload.url || null
+      };
+    }
+    const res = await axios.post(`${API_URL}/api/Package`, payload, { withCredentials: true })
+    return res.data
+  },
+
+  // Package deletion
+  async deletePackage(id: string): Promise<void> {
+    if (USE_MOCK_DATA) {
+      await delay(500);
+      return;
+    }
+    await axios.delete(`${API_URL}/api/Package/${id}`, { withCredentials: true })
   }
 }

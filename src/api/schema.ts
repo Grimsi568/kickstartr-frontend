@@ -146,6 +146,204 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/Package": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["GetAllPackages"];
+                        "application/json": components["schemas"]["GetAllPackages"];
+                        "text/json": components["schemas"]["GetAllPackages"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Package"];
+                    "text/json": components["schemas"]["Package"];
+                    "application/*+json": components["schemas"]["Package"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["PackageDto"];
+                        "application/json": components["schemas"]["PackageDto"];
+                        "text/json": components["schemas"]["PackageDto"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Package/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Tag": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["GetAllTags"];
+                        "application/json": components["schemas"]["GetAllTags"];
+                        "text/json": components["schemas"]["GetAllTags"];
+                    };
+                };
+            };
+        };
+        put?: never;
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": components["schemas"]["Tag2"];
+                    "text/json": components["schemas"]["Tag2"];
+                    "application/*+json": components["schemas"]["Tag2"];
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "text/plain": components["schemas"]["TagDto"];
+                        "application/json": components["schemas"]["TagDto"];
+                        "text/json": components["schemas"]["TagDto"];
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/Tag/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/Template": {
         parameters: {
             query?: never;
@@ -486,6 +684,38 @@ export interface components {
             bundleTemplates?: components["schemas"];
             comments?: components["schemas"];
         } | null;
+        Bundle3: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            slug: string;
+            description?: string | null;
+            /** Format: int32 */
+            price?: number;
+            isActive?: boolean;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string | null;
+            bundleTemplates?: components["schemas"][];
+            comments?: components["schemas"]["Comment2"][];
+        };
+        Bundle4: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            slug: string;
+            description?: string | null;
+            /** Format: int32 */
+            price?: number;
+            isActive?: boolean;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string | null;
+            bundleTemplates?: components["schemas"];
+            comments?: components["schemas"];
+        } | null;
         BundleDto: {
             /** Format: uuid */
             id?: string;
@@ -509,6 +739,16 @@ export interface components {
             /** Format: int32 */
             sortOrder?: number;
         };
+        BundleTemplate2: {
+            /** Format: uuid */
+            bundleId?: string;
+            bundle?: components["schemas"]["Bundle3"];
+            /** Format: uuid */
+            templateId?: string;
+            template?: components["schemas"]["Template11"];
+            /** Format: int32 */
+            sortOrder?: number;
+        };
         Comment: {
             /** Format: uuid */
             id?: string;
@@ -526,6 +766,23 @@ export interface components {
             /** Format: date-time */
             createdAt?: string;
         };
+        Comment2: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            templateId?: string | null;
+            template?: components["schemas"]["Template9"];
+            /** Format: uuid */
+            bundleId?: string | null;
+            bundle?: components["schemas"]["Bundle4"];
+            /** Format: uuid */
+            userId?: string | null;
+            user?: components["schemas"]["User5"];
+            content: string;
+            visibility?: components["schemas"]["Visibility"];
+            /** Format: date-time */
+            createdAt?: string;
+        };
         CommentDto: {
             /** Format: uuid */
             id?: string;
@@ -535,11 +792,17 @@ export interface components {
             userDisplayName?: string | null;
             visibility?: components["schemas"]["Visibility"];
         };
+        GetAllPackages: {
+            packages?: components["schemas"]["PackageDto"][];
+        };
         GetAllPublicBundlesResponse: {
             bundles?: components["schemas"]["BundleDto"][];
         };
         GetAllPublicTemplatesResponse: {
             templates?: components["schemas"]["TemplateListItemDto"][];
+        };
+        GetAllTags: {
+            tags?: components["schemas"]["TagDto"][];
         };
         GetSingleBundleResponse: {
             bundle: components["schemas"]["BundleDto"];
@@ -568,7 +831,36 @@ export interface components {
             userName?: string | null;
             avatarUrl?: string | null;
         };
+        OAuthAccount2: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            userId?: string;
+            user?: components["schemas"]["User6"];
+            provider: string;
+            providerUserId: string;
+            userName?: string | null;
+            avatarUrl?: string | null;
+        };
         Package: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            version?: string | null;
+            packageManager?: components["schemas"]["PackageManager"];
+            url?: string | null;
+            templatePackages?: components["schemas"]["TemplatePackage"][];
+        };
+        Package2: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            version?: string | null;
+            packageManager?: components["schemas"]["PackageManager"];
+            url?: string | null;
+            templatePackages?: components["schemas"];
+        };
+        Package3: {
             /** Format: uuid */
             id?: string;
             name: string;
@@ -600,12 +892,13 @@ export interface components {
             price?: string;
             currency?: string;
             version?: string;
-            tags?: components["schemas"]["TemplateTag"][];
+            tags?: components["schemas"]["TagDto"][];
         };
         PostTemplateResponse: {
             /** Format: uuid */
             id?: string;
         };
+        Role: number;
         Tag: {
             /** Format: uuid */
             id?: string;
@@ -614,11 +907,27 @@ export interface components {
             category?: string | null;
             templateTags?: components["schemas"][];
         };
-        TagDto: {
+        Tag2: {
             /** Format: uuid */
             id?: string;
             name: string;
             slug: string;
+            category?: string | null;
+            templateTags?: components["schemas"]["TemplateTag2"][];
+        };
+        Tag3: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            slug: string;
+            category?: string | null;
+            templateTags?: components["schemas"];
+        };
+        TagDto: {
+            /** Format: uuid */
+            id?: string;
+            name?: string;
+            slug?: string;
             category?: string | null;
         };
         Template: {
@@ -638,14 +947,14 @@ export interface components {
             createdAt?: string;
             /** Format: date-time */
             updatedAt?: string | null;
-            templateTags?: components["schemas"][];
-            templatePackages?: components["schemas"]["TemplatePackage"][];
+            templateTags?: components["schemas"]["TemplateTag"][];
+            templatePackages?: components["schemas"];
             bundleTemplates?: components["schemas"];
             assets?: components["schemas"];
             comments?: components["schemas"];
             versions?: components["schemas"];
         };
-        Template2: {
+        Template10: {
             /** Format: uuid */
             id?: string;
             name: string;
@@ -664,6 +973,78 @@ export interface components {
             updatedAt?: string | null;
             templateTags?: components["schemas"];
             templatePackages?: components["schemas"];
+            bundleTemplates?: components["schemas"];
+            assets?: components["schemas"];
+            comments?: components["schemas"][];
+            versions?: components["schemas"]["TemplateVersion2"][];
+        };
+        Template11: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            slug: string;
+            shortDescription?: string | null;
+            longDescription?: string | null;
+            isFree?: boolean;
+            /** Format: int32 */
+            price?: number;
+            authorName?: string;
+            demoUrl?: string | null;
+            techStackSummary?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string | null;
+            templateTags?: components["schemas"];
+            templatePackages?: components["schemas"];
+            bundleTemplates?: components["schemas"];
+            assets?: components["schemas"];
+            comments?: components["schemas"];
+            versions?: components["schemas"];
+        };
+        Template12: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            slug: string;
+            shortDescription?: string | null;
+            longDescription?: string | null;
+            isFree?: boolean;
+            /** Format: int32 */
+            price?: number;
+            authorName?: string;
+            demoUrl?: string | null;
+            techStackSummary?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string | null;
+            templateTags?: components["schemas"];
+            templatePackages?: components["schemas"];
+            bundleTemplates?: components["schemas"];
+            assets?: components["schemas"];
+            comments?: components["schemas"];
+            versions?: components["schemas"];
+        } | null;
+        Template2: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            slug: string;
+            shortDescription?: string | null;
+            longDescription?: string | null;
+            isFree?: boolean;
+            /** Format: int32 */
+            price?: number;
+            authorName?: string;
+            demoUrl?: string | null;
+            techStackSummary?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string | null;
+            templateTags?: components["schemas"];
+            templatePackages?: components["schemas"][];
             bundleTemplates?: components["schemas"]["BundleTemplate"][];
             assets?: components["schemas"];
             comments?: components["schemas"];
@@ -765,6 +1146,78 @@ export interface components {
             comments?: components["schemas"];
             versions?: components["schemas"];
         } | null;
+        Template7: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            slug: string;
+            shortDescription?: string | null;
+            longDescription?: string | null;
+            isFree?: boolean;
+            /** Format: int32 */
+            price?: number;
+            authorName?: string;
+            demoUrl?: string | null;
+            techStackSummary?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string | null;
+            templateTags?: components["schemas"][];
+            templatePackages?: components["schemas"]["TemplatePackage2"][];
+            bundleTemplates?: components["schemas"];
+            assets?: components["schemas"];
+            comments?: components["schemas"];
+            versions?: components["schemas"];
+        };
+        Template8: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            slug: string;
+            shortDescription?: string | null;
+            longDescription?: string | null;
+            isFree?: boolean;
+            /** Format: int32 */
+            price?: number;
+            authorName?: string;
+            demoUrl?: string | null;
+            techStackSummary?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string | null;
+            templateTags?: components["schemas"];
+            templatePackages?: components["schemas"];
+            bundleTemplates?: components["schemas"]["BundleTemplate2"][];
+            assets?: components["schemas"];
+            comments?: components["schemas"];
+            versions?: components["schemas"];
+        };
+        Template9: {
+            /** Format: uuid */
+            id?: string;
+            name: string;
+            slug: string;
+            shortDescription?: string | null;
+            longDescription?: string | null;
+            isFree?: boolean;
+            /** Format: int32 */
+            price?: number;
+            authorName?: string;
+            demoUrl?: string | null;
+            techStackSummary?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            /** Format: date-time */
+            updatedAt?: string | null;
+            templateTags?: components["schemas"];
+            templatePackages?: components["schemas"];
+            bundleTemplates?: components["schemas"];
+            assets?: components["schemas"]["TemplateAsset3"][];
+            comments?: components["schemas"];
+            versions?: components["schemas"];
+        } | null;
         TemplateAsset: {
             /** Format: uuid */
             id?: string;
@@ -783,6 +1236,40 @@ export interface components {
             isActive?: boolean;
         };
         TemplateAsset2: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            templateId?: string;
+            template?: components["schemas"];
+            type?: components["schemas"]["TemplateAssetType"];
+            blobContainer: string;
+            blobName: string;
+            fileName?: string | null;
+            contentType?: string | null;
+            /** Format: int64 */
+            sizeBytes?: number | null;
+            /** Format: date-time */
+            createdAt?: string;
+            isActive?: boolean;
+        } | null;
+        TemplateAsset3: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            templateId?: string;
+            template?: components["schemas"]["Template10"];
+            type?: components["schemas"]["TemplateAssetType"];
+            blobContainer: string;
+            blobName: string;
+            fileName?: string | null;
+            contentType?: string | null;
+            /** Format: int64 */
+            sizeBytes?: number | null;
+            /** Format: date-time */
+            createdAt?: string;
+            isActive?: boolean;
+        };
+        TemplateAsset4: {
             /** Format: uuid */
             id?: string;
             /** Format: uuid */
@@ -839,19 +1326,36 @@ export interface components {
         TemplatePackage: {
             /** Format: uuid */
             templateId?: string;
-            template?: components["schemas"]["Template2"];
+            template?: components["schemas"]["Template"];
             /** Format: uuid */
             packageId?: string;
-            package?: components["schemas"]["Package"];
+            package?: components["schemas"]["Package2"];
+            notes?: string | null;
+        };
+        TemplatePackage2: {
+            /** Format: uuid */
+            templateId?: string;
+            template?: components["schemas"]["Template8"];
+            /** Format: uuid */
+            packageId?: string;
+            package?: components["schemas"]["Package3"];
             notes?: string | null;
         };
         TemplateTag: {
             /** Format: uuid */
             templateId?: string;
-            template?: components["schemas"]["Template"];
+            template?: components["schemas"]["Template2"];
             /** Format: uuid */
             tagId?: string;
             tag?: components["schemas"]["Tag"];
+        };
+        TemplateTag2: {
+            /** Format: uuid */
+            templateId?: string;
+            template?: components["schemas"]["Template7"];
+            /** Format: uuid */
+            tagId?: string;
+            tag?: components["schemas"]["Tag3"];
         };
         TemplateVersion: {
             /** Format: uuid */
@@ -864,6 +1368,22 @@ export interface components {
             /** Format: uuid */
             assetId?: string | null;
             asset?: components["schemas"]["TemplateAsset2"];
+            /** Format: date-time */
+            createdAt?: string;
+            isDeprecated?: boolean;
+            isLatest?: boolean;
+        };
+        TemplateVersion2: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            templateId?: string;
+            template?: components["schemas"]["Template11"];
+            version: string;
+            notes?: string | null;
+            /** Format: uuid */
+            assetId?: string | null;
+            asset?: components["schemas"]["TemplateAsset4"];
             /** Format: date-time */
             createdAt?: string;
             isDeprecated?: boolean;
@@ -896,6 +1416,7 @@ export interface components {
             avatarUrl?: string | null;
             /** Format: date-time */
             createdAt?: string;
+            role?: components["schemas"]["Role"];
             oAuthAccounts?: components["schemas"]["OAuthAccount"][];
             purchases?: components["schemas"];
             favorites?: components["schemas"];
@@ -908,6 +1429,7 @@ export interface components {
             avatarUrl?: string | null;
             /** Format: date-time */
             createdAt?: string;
+            role?: components["schemas"]["Role"];
             oAuthAccounts?: components["schemas"];
             purchases?: components["schemas"]["UserPurchase"][];
             favorites?: components["schemas"];
@@ -920,6 +1442,7 @@ export interface components {
             avatarUrl?: string | null;
             /** Format: date-time */
             createdAt?: string;
+            role?: components["schemas"]["Role"];
             oAuthAccounts?: components["schemas"];
             purchases?: components["schemas"];
             favorites?: components["schemas"]["UserFavorite"][];
@@ -932,6 +1455,59 @@ export interface components {
             avatarUrl?: string | null;
             /** Format: date-time */
             createdAt?: string;
+            role?: components["schemas"]["Role"];
+            oAuthAccounts?: components["schemas"];
+            purchases?: components["schemas"];
+            favorites?: components["schemas"];
+        };
+        User5: {
+            /** Format: uuid */
+            id?: string;
+            email: string;
+            displayName: string;
+            avatarUrl?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            role?: components["schemas"]["Role"];
+            oAuthAccounts?: components["schemas"]["OAuthAccount2"][];
+            purchases?: components["schemas"];
+            favorites?: components["schemas"];
+        } | null;
+        User6: {
+            /** Format: uuid */
+            id?: string;
+            email: string;
+            displayName: string;
+            avatarUrl?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            role?: components["schemas"]["Role"];
+            oAuthAccounts?: components["schemas"];
+            purchases?: components["schemas"]["UserPurchase2"][];
+            favorites?: components["schemas"];
+        };
+        User7: {
+            /** Format: uuid */
+            id?: string;
+            email: string;
+            displayName: string;
+            avatarUrl?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            role?: components["schemas"]["Role"];
+            oAuthAccounts?: components["schemas"];
+            purchases?: components["schemas"];
+            favorites?: components["schemas"]["UserFavorite2"][];
+        };
+        User8: {
+            /** Format: uuid */
+            id?: string;
+            email: string;
+            displayName: string;
+            avatarUrl?: string | null;
+            /** Format: date-time */
+            createdAt?: string;
+            role?: components["schemas"]["Role"];
             oAuthAccounts?: components["schemas"];
             purchases?: components["schemas"];
             favorites?: components["schemas"];
@@ -944,6 +1520,7 @@ export interface components {
             avatarUrl?: string | null;
             /** Format: date-time */
             createdAt?: string;
+            role?: components["schemas"]["Role"];
         };
         UserFavorite: {
             /** Format: uuid */
@@ -952,6 +1529,16 @@ export interface components {
             /** Format: uuid */
             templateId?: string;
             template?: components["schemas"]["Template5"];
+            /** Format: date-time */
+            addedAt?: string;
+        };
+        UserFavorite2: {
+            /** Format: uuid */
+            userId?: string;
+            user?: components["schemas"]["User8"];
+            /** Format: uuid */
+            templateId?: string;
+            template?: components["schemas"]["Template11"];
             /** Format: date-time */
             addedAt?: string;
         };
@@ -967,6 +1554,22 @@ export interface components {
             /** Format: uuid */
             bundleId?: string | null;
             bundle?: components["schemas"]["Bundle2"];
+            /** Format: date-time */
+            purchasedAt?: string;
+            paymentId?: string | null;
+        };
+        UserPurchase2: {
+            /** Format: uuid */
+            id?: string;
+            /** Format: uuid */
+            userId?: string;
+            user?: components["schemas"]["User7"];
+            /** Format: uuid */
+            templateId?: string | null;
+            template?: components["schemas"]["Template12"];
+            /** Format: uuid */
+            bundleId?: string | null;
+            bundle?: components["schemas"]["Bundle4"];
             /** Format: date-time */
             purchasedAt?: string;
             paymentId?: string | null;

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '@/context/AuthContext'
 
 const Navbar = () => {
-  const { user, logout } = useAuth()
+  const { user, logout, isAdmin } = useAuth()
   const [open, setOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
@@ -39,10 +39,11 @@ const Navbar = () => {
               className="flex items-center gap-2 px-3 py-2 rounded hover:bg-cyan-900/30 transition text-gray-100"
               onClick={() => setOpen(v => !v)}
             >
-              <span className="w-8 h-8 rounded-full bg-cyan-600 flex items-center justify-center text-lg font-bold text-white">
-                {(user.displayName || user.name || user.email || "U")[0].toUpperCase()}
+              <span className={`w-8 h-8 rounded-full flex items-center justify-center text-lg font-bold text-white ${isAdmin() ? 'bg-cyan-500' : 'bg-cyan-600'}`}>
+                {isAdmin() ? '👑' : (user.displayName || user.email || "U")[0].toUpperCase()}
               </span>
-              <span className="hidden sm:inline">{user.displayName || user.name || user.email}</span>
+              <span className="hidden sm:inline">{user.displayName || user.email}</span>
+              {isAdmin() && <span className="hidden md:inline text-xs px-2 py-0.5 rounded bg-cyan-600 text-white">Admin</span>}
               <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
               </svg>
@@ -54,7 +55,7 @@ const Navbar = () => {
                   className="block px-4 py-2 text-gray-100 hover:bg-cyan-900/40 transition"
                   onClick={() => setOpen(false)}
                 >
-                  {user.displayName}
+                  {isAdmin() ? '👑 Dashboard' : 'My Profile'}
                 </Link>
                 <button
                   className="block w-full text-left px-4 py-2 text-red-300 hover:bg-cyan-900/40 transition"

@@ -16,6 +16,7 @@ import Login from '@/pages/Login'
 import MyPage from '@/pages/MyPage'
 import NotFound from '@/pages/NotFound'
 import TemplateCreate from '@/pages/admin/TemplateCreate'
+import TemplateVersionCreate from '@/pages/admin/TemplateVersionCreate'
 import TagCreate from '@/pages/admin/TagCreate'
 import PackageCreate from '@/pages/admin/PackageCreate'
 import BundleCreate from '@/pages/admin/BundleCreate'
@@ -47,6 +48,7 @@ const App = () => {
               <Route path="/bundles/:id" element={<BundleDetails />} />
               <Route path="/my-page" element={<MyPage />} />
               <Route path="/admin/template-create" element={<TemplateCreate />} />
+              <Route path="/admin/template-version-create" element={<TemplateVersionCreate />} />
               <Route path="/admin/tag-create" element={<TagCreate />} />
               <Route path="/admin/package-create" element={<PackageCreate />} />
               <Route path="/admin/bundle-create" element={<BundleCreate />} />

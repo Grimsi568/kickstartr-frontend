@@ -57,9 +57,6 @@ const Home = () => (
         Discover, customize, and launch your next project with premium templates.
       </p>
       <div className="flex gap-4 mb-12">
-        <a href="/catalog" className="btn btn-primary text-lg px-6 py-3 shadow-md">
-          Browse Catalog
-        </a>
         <a href="/register" className="btn btn-outline text-lg px-6 py-3 shadow-md">
           Get Started
         </a>

@@ -7,9 +7,39 @@ This file documents the mock data available in the application for development a
 Set in your `.env` file:
 ```env
 VITE_USE_MOCK_DATA=true
+# Set to true to mock as admin, false for regular user
+VITE_MOCK_AS_ADMIN=false
 ```
 
 Then restart your dev server.
+
+## User Roles
+
+The app now supports two user roles:
+
+- **User (role: 0)** - Regular user with access to:
+  - View templates and bundles
+  - View their profile
+  - View their licenses
+  
+- **Admin (role: 1)** - Admin user with access to:
+  - All user features
+  - Admin dashboard with management tools
+  - Create templates, bundles, tags, and packages
+
+### Testing Different Roles
+
+**Mock as Regular User:**
+```env
+VITE_USE_MOCK_DATA=true
+VITE_MOCK_AS_ADMIN=false
+```
+
+**Mock as Admin:**
+```env
+VITE_USE_MOCK_DATA=true
+VITE_MOCK_AS_ADMIN=true
+```
 
 ## Mock Data Contents
 
@@ -54,10 +84,15 @@ Then restart your dev server.
 
 ### User
 
-- **Demo User**
+- **Demo User** (Regular User - role: 0)
   - ID: `user-123`
   - Email: demo@kickstartr.dev
   - Display Name: Demo User
+  
+- **Admin User** (Admin - role: 1)
+  - ID: `admin-123`
+  - Email: admin@kickstartr.dev
+  - Display Name: Admin User
 
 ## Mock API Behavior
 

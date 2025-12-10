@@ -272,7 +272,18 @@ export const mockUser: components["schemas"]["UserDto"] = {
   email: 'demo@kickstartr.dev',
   displayName: 'Demo User',
   avatarUrl: 'https://via.placeholder.com/100/0891b2/ffffff?text=DU',
-  createdAt: '2024-01-01T00:00:00Z'
+  createdAt: '2024-01-01T00:00:00Z',
+  role: 0 // User role
+};
+
+// Mock Admin User
+export const mockAdminUser: components["schemas"]["UserDto"] = {
+  id: 'admin-123',
+  email: 'admin@kickstartr.dev',
+  displayName: 'Admin User',
+  avatarUrl: 'https://via.placeholder.com/100/06b6d4/ffffff?text=AD',
+  createdAt: '2024-01-01T00:00:00Z',
+  role: 1 // Admin role
 };
 
 // Helper to get mock template detail by ID

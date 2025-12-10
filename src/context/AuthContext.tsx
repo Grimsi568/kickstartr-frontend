@@ -1,19 +1,16 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import type { components } from '@/api/schema'
 
 const API_URL = import.meta.env.VITE_API_URL || ''
 
-type User = {
-  id?: string
-  name?: string
-  email?: string
-  displayName?: string
-}
+type User = components["schemas"]["UserDto"]
 
 type AuthContextType = {
   user: User | null
   setUser: (user: User | null) => void
   logout: () => void
   refreshUser: () => Promise<void>
+  isAdmin: () => boolean
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -21,6 +18,7 @@ const AuthContext = createContext<AuthContextType>({
   setUser: () => {},
   logout: () => {},
   refreshUser: async () => {},
+  isAdmin: () => false,
 })
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -58,8 +56,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const refreshUser = fetchUserProfile
 
+  const isAdmin = () => user?.role === 1
+
   return (
-    <AuthContext.Provider value={{ user, setUser, logout, refreshUser }}>
+    <AuthContext.Provider value={{ user, setUser, logout, refreshUser, isAdmin }}>
       {children}
     </AuthContext.Provider>
   )

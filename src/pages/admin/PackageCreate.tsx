@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
+import { Api } from "../../lib/api";
 
 type PackageForm = {
   name: string;
@@ -33,20 +35,17 @@ const PackageCreatePage: React.FC = () => {
     setError(null);
     setIsSubmitting(true);
     try {
-      // TODO: Implement API call when endpoint is available
-      // await Api.createPackage({
-      //   name: form.name,
-      //   version: form.version || null,
-      //   packageManager: form.packageManager,
-      //   url: form.url || null,
-      // });
-      
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+      await Api.createPackage({
+        name: form.name,
+        version: form.version || null,
+        packageManager: form.packageManager,
+        url: form.url || null,
+      });
       
       setStatus("Package created successfully!");
       setForm({ name: "", version: "", packageManager: 0, url: "" });
     } catch (err: any) {
-      const message = err?.message || "Unknown error";
+      const message = err?.response?.data?.message || err?.message || "Unknown error";
       setError(message);
       setStatus("Failed");
     } finally {
@@ -55,13 +54,33 @@ const PackageCreatePage: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-10 text-neutral-900 dark:text-neutral-100">
-      <div className="max-w-2xl mx-auto bg-white dark:bg-neutral-900 shadow-sm rounded-lg border border-neutral-200 dark:border-neutral-700 p-8">
-        <h1 className="text-2xl font-semibold mb-6">Create Package</h1>
-        <form onSubmit={handleSubmit} className="space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-800 px-4 py-10">
+      <div className="container-max max-w-2xl mx-auto">
+        <div className="mb-8">
+          <Link
+            to="/my-page"
+            className="inline-flex items-center gap-2 px-4 py-2 text-cyan-400 hover:text-cyan-300 transition-colors"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Dashboard
+          </Link>
+        </div>
+
+        <div className="bg-white/5 backdrop-blur-lg shadow-2xl rounded-2xl border border-cyan-400/30 p-8">
+          <div className="mb-8">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-4xl">📦</span>
+              <h1 className="text-3xl font-bold text-cyan-300 font-mono">Create Package</h1>
+            </div>
+            <p className="text-cyan-400/70 text-sm">Add a new package dependency to the system</p>
+          </div>
+
+        <form onSubmit={handleSubmit} className="space-y-8">
           {/* Name */}
           <div>
-            <label className="block text-sm font-medium mb-1 text-neutral-700 dark:text-neutral-200" htmlFor="name">
+            <label className="block text-sm font-semibold text-cyan-300 mb-2.5" htmlFor="name">
               Package Name *
             </label>
             <input
@@ -70,14 +89,14 @@ const PackageCreatePage: React.FC = () => {
               value={form.name}
               onChange={handleChange}
               required
-              className="w-full rounded-md border border-neutral-300 dark:border-neutral-500 bg-white dark:bg-neutral-800/70 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-500 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full rounded-lg border border-cyan-400/30 bg-gray-900/50 text-cyan-100 placeholder-cyan-600/40 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400 transition-all"
               placeholder="react"
             />
           </div>
 
           {/* Version */}
           <div>
-            <label className="block text-sm font-medium mb-1 text-neutral-700 dark:text-neutral-200" htmlFor="version">
+            <label className="block text-sm font-semibold text-cyan-300 mb-2.5" htmlFor="version">
               Version
             </label>
             <input
@@ -85,15 +104,15 @@ const PackageCreatePage: React.FC = () => {
               name="version"
               value={form.version}
               onChange={handleChange}
-              className="w-full rounded-md border border-neutral-300 dark:border-neutral-500 bg-white dark:bg-neutral-800/70 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-500 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full rounded-lg border border-cyan-400/30 bg-gray-900/50 text-cyan-100 placeholder-cyan-600/40 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400 transition-all"
               placeholder="18.2.0"
             />
-            <p className="mt-1 text-xs text-neutral-600 dark:text-neutral-400">Optional: Specific version number.</p>
+            <p className="mt-2 text-xs text-cyan-400/60">Optional: Specific version number.</p>
           </div>
 
           {/* Package Manager */}
           <div>
-            <label className="block text-sm font-medium mb-1 text-neutral-700 dark:text-neutral-200" htmlFor="packageManager">
+            <label className="block text-sm font-semibold text-cyan-300 mb-2.5" htmlFor="packageManager">
               Package Manager
             </label>
             <select
@@ -101,7 +120,7 @@ const PackageCreatePage: React.FC = () => {
               name="packageManager"
               value={form.packageManager}
               onChange={e => setForm(prev => ({ ...prev, packageManager: Number(e.target.value) }))}
-              className="w-full rounded-md border border-neutral-300 dark:border-neutral-500 bg-white dark:bg-neutral-800/70 text-neutral-900 dark:text-neutral-100 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full rounded-lg border border-cyan-400/30 bg-gray-900/50 text-cyan-100 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400 transition-all"
             >
               <option value={0}>npm</option>
               <option value={1}>yarn</option>
@@ -111,7 +130,7 @@ const PackageCreatePage: React.FC = () => {
 
           {/* URL */}
           <div>
-            <label className="block text-sm font-medium mb-1 text-neutral-700 dark:text-neutral-200" htmlFor="url">
+            <label className="block text-sm font-semibold text-cyan-300 mb-2.5" htmlFor="url">
               Package URL
             </label>
             <input
@@ -120,43 +139,38 @@ const PackageCreatePage: React.FC = () => {
               type="url"
               value={form.url}
               onChange={handleChange}
-              className="w-full rounded-md border border-neutral-300 dark:border-neutral-500 bg-white dark:bg-neutral-800/70 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 dark:placeholder-neutral-500 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full rounded-lg border border-cyan-400/30 bg-gray-900/50 text-cyan-100 placeholder-cyan-600/40 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:border-cyan-400 transition-all"
               placeholder="https://www.npmjs.com/package/react"
             />
-            <p className="mt-1 text-xs text-neutral-600 dark:text-neutral-400">Optional: Link to package registry or documentation.</p>
+            <p className="mt-2 text-xs text-cyan-400/60">Optional: Link to package registry or documentation.</p>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 pt-4">
             <button
               type="submit"
               disabled={isSubmitting || !canSubmit}
-              className="inline-flex items-center justify-center gap-2 rounded-md bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-medium px-5 py-2.5 transition-colors"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-sm font-semibold px-6 py-3 shadow-lg shadow-cyan-500/20 transition-all"
             >
               {isSubmitting && (
                 <span className="inline-block h-4 w-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
               )}
               {isSubmitting ? "Creating…" : "Create Package"}
             </button>
-            {status && (
-              <span
-                className={
-                  "text-sm font-medium " +
-                  (error
-                    ? "text-red-600 dark:text-red-400"
-                    : "text-green-600 dark:text-green-400")
-                }
-              >
+            {status && !error && (
+              <span className="text-sm font-medium text-green-400 flex items-center gap-2">
+                <span className="inline-block h-2 w-2 rounded-full bg-green-400"></span>
                 {status}
               </span>
             )}
           </div>
           {error && (
-            <div className="rounded-md border border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-900/30 px-4 py-3 text-sm text-red-800 dark:text-red-300">
-              {error}
+            <div className="rounded-lg border border-red-400/30 bg-red-500/10 px-4 py-3.5 text-sm text-red-300 backdrop-blur-sm">
+              <span className="font-semibold">Error:</span> {error}
             </div>
           )}
         </form>
+      </div>
       </div>
     </div>
   );
