@@ -23,6 +23,18 @@ const slugify = (v: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
 
+const safeName = (tag?: { name?: string }) => tag?.name ?? ''
+const safeSlug = (tag?: { slug?: string }) => tag?.slug ?? ''
+
+function normalizeTags(tags: Array<{ name?: string; slug?: string }>) {
+  return tags
+    .filter(t => !!t?.name && !!t?.slug) // ensure required fields present
+    .map(t => ({
+      name: t!.name!, // safe after filter
+      slug: t!.slug!
+    }))
+}
+
 const TemplateCreate = () => {
   const [form, setForm] = useState<TemplateForm>({
     name: '',
@@ -91,8 +103,8 @@ const TemplateCreate = () => {
 
   const filteredTags = availableTags.filter(tag => 
     !form.tags.includes(tag.id!) &&
-    (tag.name.toLowerCase().includes(tagSearch.toLowerCase()) ||
-     tag.slug.toLowerCase().includes(tagSearch.toLowerCase()) ||
+    (safeName(tag).toLowerCase().includes(tagSearch.toLowerCase()) ||
+     safeSlug(tag).toLowerCase().includes(tagSearch.toLowerCase()) ||
      (tag.category && tag.category.toLowerCase().includes(tagSearch.toLowerCase())))
   )
 
@@ -134,16 +146,18 @@ const TemplateCreate = () => {
         price: form.price,
         currency: form.currency,
         version: form.version,
-        tags: form.tags.map(tagId => {
-          const tag = availableTags.find(t => t.id === tagId);
-          if (!tag) return null;
-          return {
-            id: tag.id,
-            name: tag.name,
-            slug: tag.slug,
-            category: tag.category
-          };
-        }).filter(Boolean) as components['schemas']['TagDto'][],
+        tags: normalizeTags(
+          form.tags.map(tagId => {
+            const tag = availableTags.find(t => t.id === tagId);
+            if (!tag) return null;
+            return {
+              id: tag.id,
+              name: safeName(tag),
+              slug: safeSlug(tag),
+              category: tag.category
+            };
+          }).filter(Boolean) as components['schemas']['TagDto'][]
+        ),
       })
 
       if (!createRes.id) throw new Error('Template creation failed')
@@ -328,13 +342,13 @@ const TemplateCreate = () => {
                         key={tagId}
                         className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-cyan-600/40 text-cyan-100 border border-cyan-400/30"
                       >
-                        {tag?.name || tagId}
+                        {safeName(tag) || tagId}
                         <button
                           type="button"
                           onClick={() => removeTag(tagId)}
                           disabled={isSubmitting}
                           className="hover:text-red-300 transition disabled:opacity-50"
-                          aria-label={`Remove ${tag?.name || tagId}`}
+                          aria-label={`Remove ${safeName(tag) || tagId}`}
                         >
                           ×
                         </button>
@@ -369,12 +383,12 @@ const TemplateCreate = () => {
                       >
                         <div className="flex items-center justify-between">
                           <div>
-                            <div className="text-sm font-medium text-cyan-100">{tag.name}</div>
+                            <div className="text-sm font-medium text-cyan-100">{safeName(tag)}</div>
                             {tag.category && (
                               <div className="text-xs text-cyan-400/60">{tag.category}</div>
                             )}
                           </div>
-                          <div className="text-xs text-cyan-400/40 font-mono">{tag.slug}</div>
+                          <div className="text-xs text-cyan-400/40 font-mono">{safeSlug(tag)}</div>
                         </div>
                       </button>
                     ))}
