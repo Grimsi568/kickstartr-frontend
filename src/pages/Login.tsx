@@ -6,6 +6,7 @@ const Login = () => {
 
   useEffect(() => {
     refreshUser();
+    console.log("BONGI", `${import.meta.env.VITE_API_URL}/api/Auth/login/github`);
   }, [refreshUser]);
 
   return (

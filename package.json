@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
-    "generate:api": "openapi-typescript https://localhost:7060/openapi/v1.json -o src/api/schema.ts"
+    "generate:api": "openapi-typescript ${VITE_API_URL}/openapi/v1.json -o src/api/schema.ts"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.9.2",

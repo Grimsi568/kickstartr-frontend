@@ -1,0 +1,5 @@
+# Ignore generated local certs/keys
+*.pem
+*.key
+*.crt
+*.pfx

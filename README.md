@@ -97,6 +97,43 @@ The project uses `mkcert` for local HTTPS certificates. The certificates are alr
 
 These are trusted by your system and allow secure local development.
 
+### Generate local certs (macOS)
+- Ensure mkcert is installed (see docs/ssl-cert-mac.md).
+- Make the script executable and run it:
+  ```bash
+  chmod +x scripts/gen-local-cert.sh
+  ./scripts/gen-local-cert.sh
+  ```
+  Or:
+  ```bash
+  bash scripts/gen-local-cert.sh
+  ```
+- Copy env example and start dev:
+  ```bash
+  cp .env.local.example .env.local
+  npm run dev
+  ```
+
+### Troubleshooting HTTPS
+- Generate certs:
+  ```bash
+  chmod +x scripts/gen-local-cert.sh
+  ./scripts/gen-local-cert.sh
+  ```
+- Create .env.local (optional if using defaults):
+  ```env
+  VITE_DEV_SSL_CERT=./certs/localhost+2.pem
+  VITE_DEV_SSL_KEY=./certs/localhost+2-key.pem
+  # FORCE_HTTPS=true  # optional fallback
+  ```
+- Restart dev server:
+  ```bash
+  npm run dev
+  ```
+- On startup, check the log:
+  `[vite] HTTPS: enabled | CERT=.../certs/localhost+2.pem | KEY=.../certs/localhost+2-key.pem`
+  If disabled, verify the files exist and paths are correct.
+
 ## 📦 Building
 
 ```bash
@@ -104,6 +141,17 @@ npm run build
 ```
 
 Build output will be in the `dist/` directory.
+
+## 🚢 Azure Production Deployment
+- Create an Azure Static Web App and link this GitHub repo.
+- In GitHub repo secrets, add:
+  - AZURE_STATIC_WEB_APPS_API_TOKEN (from the Static Web App)
+  - AZURE_CREDENTIALS (Service Principal JSON with Key Vault access)
+  - KEYVAULT_NAME (your vault name)
+- In Key Vault, set secret:
+  - VITE-API-URL = https://kickstartr-api.azurewebsites.net
+- Push to main; the workflow builds with NODE_ENV=production and deploys dist/.
+- SPA routing and security headers are defined in staticwebapp.config.json.
 
 ## 🎨 Styling
 
