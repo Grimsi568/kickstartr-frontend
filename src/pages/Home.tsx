@@ -49,42 +49,42 @@ const sellingPoints = [
 
 const Home = () => (
   <div className="min-h-[70vh] flex flex-col items-center justify-center bg-gradient-to-br from-gray-800 via-gray-900 to-black">
-    <div className="container-max py-20 flex flex-col items-center text-center">
-      <h1 className="text-5xl font-extrabold text-gray-100 mb-6 drop-shadow-[0_4px_24px_rgba(6,182,212,0.15)]">
+    <div className="container-max py-10 sm:py-16 lg:py-20 px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
+      <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-100 mb-4 sm:mb-6 drop-shadow-[0_4px_24px_rgba(6,182,212,0.15)]">
         Kickstartr
       </h1>
-      <p className="text-xl text-gray-400 mb-10 max-w-xl">
+      <p className="text-base sm:text-lg lg:text-xl text-gray-400 mb-8 sm:mb-10 max-w-xl px-4">
         Discover, customize, and launch your next project with premium templates.
       </p>
-      <div className="flex gap-4 mb-12">
-        <a href="/register" className="btn btn-outline text-lg px-6 py-3 shadow-md">
+      <div className="flex gap-4 mb-10 sm:mb-12">
+        <a href="/register" className="btn btn-outline text-base sm:text-lg px-5 sm:px-6 py-2 sm:py-3 shadow-md">
           Get Started
         </a>
       </div>
 
       {/* Zig-Zag Selling Points Section */}
-      <section className="w-full max-w-4xl mb-12">
-        <h2 className="text-3xl font-bold text-cyan-400 mb-10">Why Choose Kickstartr Templates?</h2>
-        <div className="flex flex-col gap-10">
+      <section className="w-full max-w-4xl mb-10 sm:mb-12 px-4">
+        <h2 className="text-2xl sm:text-3xl font-bold text-cyan-400 mb-8 sm:mb-10">Why Choose Kickstartr Templates?</h2>
+        <div className="flex flex-col gap-6 sm:gap-8 lg:gap-10">
           {sellingPoints.map((point, idx) => (
             <div
               key={point.title}
-              className={`flex flex-col md:flex-row items-center bg-gray-900 rounded-xl shadow-lg p-8 ${
+              className={`flex flex-col md:flex-row items-center bg-gray-900 rounded-xl shadow-lg p-5 sm:p-6 lg:p-8 ${
                 point.reverse ? "md:flex-row-reverse" : ""
               }`}
             >
               {/* Image/Icon Side */}
-              <div className="flex-shrink-0 flex items-center justify-center w-32 h-32 rounded-xl bg-cyan-900/30 mb-6 md:mb-0">
-                {point.image}
+              <div className="flex-shrink-0 flex items-center justify-center w-20 h-20 sm:w-28 sm:h-28 lg:w-32 lg:h-32 rounded-xl bg-cyan-900/30 mb-4 sm:mb-6 md:mb-0">
+                <div className="scale-75 sm:scale-90 lg:scale-100">{point.image}</div>
               </div>
               {/* Text Side */}
-              <div className="md:w-3/4 md:px-8 text-left">
-                <h3 className="text-2xl font-semibold text-gray-100 mb-2 flex items-center gap-2">
-                  <span className="text-2xl">{point.icon}</span>
+              <div className="md:w-3/4 md:px-4 lg:px-8 text-center md:text-left">
+                <h3 className="text-xl sm:text-2xl font-semibold text-gray-100 mb-2 flex items-center justify-center md:justify-start gap-2">
+                  <span className="text-xl sm:text-2xl">{point.icon}</span>
                   {point.title}
                 </h3>
-                <p className="text-gray-400 mb-2">{point.description}</p>
-                <p className="text-gray-500 text-sm">{point.details}</p>
+                <p className="text-sm sm:text-base text-gray-400 mb-2">{point.description}</p>
+                <p className="text-xs sm:text-sm text-gray-500">{point.details}</p>
               </div>
             </div>
           ))}
@@ -92,18 +92,18 @@ const Home = () => (
       </section>
 
       {/* Updates & News Section */}
-      <section className="w-full max-w-4xl bg-gray-900 rounded-xl shadow-lg p-8">
-        <h2 className="text-2xl font-bold text-cyan-400 mb-4">Updates & News</h2>
-        <ul className="space-y-4 text-left">
-          <li>
+      <section className="w-full max-w-4xl bg-gray-900 rounded-xl shadow-lg p-5 sm:p-6 lg:p-8 mx-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-cyan-400 mb-4">Updates & News</h2>
+        <ul className="space-y-3 sm:space-y-4 text-left">
+          <li className="text-sm sm:text-base">
             <span className="text-cyan-300 font-semibold">June 2024:</span>
             <span className="text-gray-300 ml-2">New e-commerce template released! Try it out in the catalog.</span>
           </li>
-          <li>
+          <li className="text-sm sm:text-base">
             <span className="text-cyan-300 font-semibold">May 2024:</span>
             <span className="text-gray-300 ml-2">Kickstartr now supports dark mode and improved mobile layouts.</span>
           </li>
-          <li>
+          <li className="text-sm sm:text-base">
             <span className="text-cyan-300 font-semibold">April 2024:</span>
             <span className="text-gray-300 ml-2">Community showcase launched—see what others are building!</span>
           </li>

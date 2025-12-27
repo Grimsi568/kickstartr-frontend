@@ -38,11 +38,11 @@ const Bundles = () => {
   }
 
   return (
-    <div className="container-max py-16">
-      <h1 className="text-4xl font-extrabold text-cyan-400 mb-10 text-center tracking-wide font-mono flex items-center justify-center gap-2">
-        <span className="inline-block animate-pulse">📦</span> Bundles
+    <div className="container-max py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8">
+      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-cyan-400 mb-6 sm:mb-8 lg:mb-10 text-center tracking-wide font-mono flex items-center justify-center gap-2">
+        <span className="inline-block animate-pulse text-2xl sm:text-3xl">📦</span> Bundles
       </h1>
-      <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 sm:gap-8 md:gap-10 lg:gap-12 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {bundles.map(bundle => (
           <BundleCard key={bundle.id} bundle={bundle} />
         ))}

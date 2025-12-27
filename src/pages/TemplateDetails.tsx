@@ -24,24 +24,24 @@ const TemplateDetails = () => {
   if (!template) return <div className="text-center text-red-500 mt-16">Template not found.</div>
 
   return (
-    <div className="container-max py-16 flex flex-col items-center">
-      <div className="relative group overflow-visible rounded-3xl bg-white/10 backdrop-blur-lg border border-cyan-400 shadow-2xl flex flex-col lg:flex-row w-full max-w-6xl transition-all duration-300">
+    <div className="container-max py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+      <div className="relative group overflow-visible rounded-2xl sm:rounded-3xl bg-white/10 backdrop-blur-lg border border-cyan-400 shadow-2xl flex flex-col lg:flex-row w-full max-w-6xl transition-all duration-300">
         {/* Left: Main Content */}
-        <div className="relative z-10 flex-1 flex flex-col px-10 pt-10 pb-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-            <h1 className="text-4xl font-extrabold text-cyan-300 font-mono tracking-tight flex items-center gap-3">
-              <span className="inline-block animate-pulse">🧬</span>
-              {template.name}
+        <div className="relative z-10 flex-1 flex flex-col px-4 sm:px-6 lg:px-10 pt-6 sm:pt-8 lg:pt-10 pb-4 sm:pb-5 lg:pb-6">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-cyan-300 font-mono tracking-tight flex items-center gap-2 sm:gap-3">
+              <span className="inline-block animate-pulse text-xl sm:text-2xl lg:text-3xl">🧬</span>
+              <span className="break-words">{template.name}</span>
             </h1>
-            <span className="ml-2 px-6 py-2 rounded-full text-base font-semibold border border-cyan-400 shadow-cyan-400/30 shadow-sm bg-cyan-900/60 text-cyan-200">
+            <span className="self-start md:self-auto px-4 sm:px-6 py-1.5 sm:py-2 rounded-full text-sm sm:text-base font-semibold border border-cyan-400 shadow-cyan-400/30 shadow-sm bg-cyan-900/60 text-cyan-200 flex-shrink-0">
               {template.isFree ? "Free" : template.price != null ? `$${template.price}` : "Free"}
             </span>
           </div>
-          <p className="text-neutral-200 mb-6 font-light text-lg">{template.shortDescription || template.longDescription}</p>
-          <div className="flex flex-wrap gap-2 mb-8">
+          <p className="text-sm sm:text-base lg:text-lg text-neutral-200 mb-4 sm:mb-6 font-light">{template.shortDescription || template.longDescription}</p>
+          <div className="flex flex-wrap gap-2 mb-6 sm:mb-8">
             {template.tags?.length
               ? template.tags.map(tag => (
-                  <span key={tag.id} className="px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-cyan-400/40 via-blue-400/30 to-cyan-600/40 text-cyan-100 border border-cyan-300 shadow-cyan-400/10 shadow-sm">
+                  <span key={tag.id} className="px-2 sm:px-3 py-1 rounded-full text-xs font-semibold bg-gradient-to-r from-cyan-400/40 via-blue-400/30 to-cyan-600/40 text-cyan-100 border border-cyan-300 shadow-cyan-400/10 shadow-sm">
                     #{tag.name}
                   </span>
                 ))
@@ -49,13 +49,13 @@ const TemplateDetails = () => {
             }
           </div>
           {template.packages && template.packages.length > 0 && (
-            <div className="mb-8">
-              <div className="font-mono text-cyan-300 text-base mb-3">📦 Dependencies</div>
+            <div className="mb-6 sm:mb-8">
+              <div className="font-mono text-cyan-300 text-sm sm:text-base mb-2 sm:mb-3">📦 Dependencies</div>
               <ul className="space-y-2">
                 {template.packages.map(pkg => (
                   <li 
                     key={pkg.id} 
-                    className="bg-cyan-900/20 border border-cyan-400/30 rounded-lg px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
+                    className="bg-cyan-900/20 border border-cyan-400/30 rounded-lg px-3 sm:px-4 py-2 sm:py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
                   >
                     <div className="flex flex-col min-w-0 flex-1">
                       <span className="font-mono font-semibold text-cyan-200 text-sm truncate" title={pkg.name}>
@@ -165,14 +165,14 @@ const TemplateDetails = () => {
           <div className="mt-auto flex justify-end">
             <a
               href={`/templates/${template.id}/payment`}
-              className="btn btn-primary font-mono tracking-wide bg-cyan-400/80 border-cyan-400 text-white hover:bg-cyan-500/90 hover:border-cyan-300 transition-all px-8 py-3 text-lg rounded-xl"
+              className="btn btn-primary font-mono tracking-wide bg-cyan-400/80 border-cyan-400 text-white hover:bg-cyan-500/90 hover:border-cyan-300 transition-all px-5 sm:px-6 lg:px-8 py-2 sm:py-2.5 lg:py-3 text-base sm:text-lg rounded-xl w-full sm:w-auto text-center"
             >
               Purchase / Download
             </a>
           </div>
         </div>
         {/* Right: Sidebar */}
-        <aside className="relative z-10 w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-cyan-400/30 bg-cyan-950/30 rounded-b-3xl lg:rounded-b-none lg:rounded-r-3xl flex flex-col px-8 py-10 gap-8">
+        <aside className="relative z-10 w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-cyan-400/30 bg-cyan-950/30 rounded-b-2xl sm:rounded-b-3xl lg:rounded-b-none lg:rounded-r-3xl flex flex-col px-5 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 gap-5 sm:gap-6 lg:gap-8">
           <div>
             <div className="font-mono text-cyan-400 text-sm mb-1">Published by</div>
             <div className="flex items-center gap-3">
@@ -211,22 +211,22 @@ const TemplateDetails = () => {
         <div className="absolute inset-0 rounded-3xl pointer-events-none border-2 border-cyan-400 opacity-0 group-hover:opacity-80 transition-opacity duration-300 blur-sm"></div>
       </div>
       {/* Comments Section */}
-      <div className="mt-14 w-full max-w-4xl mx-auto">
-        <h2 className="text-2xl font-bold mb-5 text-cyan-300 font-mono flex items-center gap-2">
-          <span className="inline-block animate-pulse">💬</span>
+      <div className="mt-10 sm:mt-12 lg:mt-14 w-full max-w-4xl mx-auto">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-5 text-cyan-300 font-mono flex items-center gap-2">
+          <span className="inline-block animate-pulse text-lg sm:text-xl">💬</span>
           Comments
         </h2>
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {template.comments && template.comments.length > 0 ? (
             template.comments.map((comment, idx) => (
               <div
                 key={comment.id || idx}
-                className="relative group rounded-2xl bg-white/5 backdrop-blur-md border border-cyan-400/40 shadow-lg px-6 py-4 transition-all duration-300 hover:border-cyan-400/80"
+                className="relative group rounded-xl sm:rounded-2xl bg-white/5 backdrop-blur-md border border-cyan-400/40 shadow-lg px-4 sm:px-5 lg:px-6 py-3 sm:py-4 transition-all duration-300 hover:border-cyan-400/80"
               >
                 {/* Neon glow border effect */}
-                <div className="absolute inset-0 rounded-2xl pointer-events-none border-2 border-cyan-400 opacity-0 group-hover:opacity-60 transition-opacity duration-300 blur-sm"></div>
+                <div className="absolute inset-0 rounded-xl sm:rounded-2xl pointer-events-none border-2 border-cyan-400 opacity-0 group-hover:opacity-60 transition-opacity duration-300 blur-sm"></div>
                 <div className="flex items-center mb-2">
-                  <div className="font-mono text-cyan-200 text-sm font-semibold">
+                  <div className="font-mono text-cyan-200 text-xs sm:text-sm font-semibold">
                     {comment.userDisplayName || (
                       <span className="italic text-cyan-400/70">Anonymous</span>
                     )}
@@ -237,22 +237,22 @@ const TemplateDetails = () => {
                     </span>
                   )}
                 </div>
-                <div className="text-cyan-100 font-light text-base leading-relaxed">
+                <div className="text-cyan-100 font-light text-sm sm:text-base leading-relaxed">
                   {comment.content}
                 </div>
               </div>
             ))
           ) : (
-            <div className="text-cyan-400/70 italic text-center py-8 bg-white/5 rounded-xl border border-cyan-400/20 font-mono">
+            <div className="text-cyan-400/70 italic text-center py-6 sm:py-8 bg-white/5 rounded-xl border border-cyan-400/20 font-mono text-xs sm:text-sm">
               No comments yet. Be the first to share your thoughts!
             </div>
           )}
         </div>
       </div>
       {/* Post a Comment Section */}
-      <div className="mt-10 w-full max-w-4xl mx-auto">
-        <h3 className="text-xl font-bold mb-4 text-cyan-200 font-mono flex items-center gap-2">
-          <span className="inline-block">✍️</span>
+      <div className="mt-8 sm:mt-10 w-full max-w-4xl mx-auto">
+        <h3 className="text-lg sm:text-xl font-bold mb-3 sm:mb-4 text-cyan-200 font-mono flex items-center gap-2">
+          <span className="inline-block text-base sm:text-lg">✍️</span>
           Post a Comment
         </h3>
         <PostCommentForm templateId={template.id ?? ""} />

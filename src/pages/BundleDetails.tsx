@@ -23,30 +23,30 @@ const BundleDetails = () => {
   if (!bundle) return <div className="text-center text-red-500 mt-16">Bundle not found.</div>
 
   return (
-    <div className="container-max py-16 flex flex-col items-center">
-      <div className="relative group overflow-visible rounded-3xl bg-white/10 backdrop-blur-lg border border-cyan-400 shadow-2xl flex flex-col lg:flex-row w-full max-w-6xl transition-all duration-300">
+    <div className="container-max py-8 sm:py-12 lg:py-16 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+      <div className="relative group overflow-visible rounded-2xl sm:rounded-3xl bg-white/10 backdrop-blur-lg border border-cyan-400 shadow-2xl flex flex-col lg:flex-row w-full max-w-6xl transition-all duration-300">
         {/* Left: Main Content */}
-        <div className="relative z-10 flex-1 flex flex-col px-10 pt-10 pb-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-            <h1 className="text-4xl font-extrabold text-cyan-300 font-mono tracking-tight flex items-center gap-3">
-              <span className="inline-block animate-pulse">📦</span>
-              {bundle.name}
+        <div className="relative z-10 flex-1 flex flex-col px-4 sm:px-6 lg:px-10 pt-6 sm:pt-8 lg:pt-10 pb-4 sm:pb-5 lg:pb-6">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 sm:gap-4 mb-4 sm:mb-6">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-cyan-300 font-mono tracking-tight flex items-center gap-2 sm:gap-3">
+              <span className="inline-block animate-pulse text-xl sm:text-2xl lg:text-3xl">📦</span>
+              <span className="break-words">{bundle.name}</span>
             </h1>
-            <span className="ml-2 px-6 py-2 rounded-full text-base font-semibold border border-cyan-400 shadow-cyan-400/30 shadow-sm bg-cyan-900/60 text-cyan-200">
+            <span className="self-start md:self-auto px-4 sm:px-6 py-1.5 sm:py-2 rounded-full text-sm sm:text-base font-semibold border border-cyan-400 shadow-cyan-400/30 shadow-sm bg-cyan-900/60 text-cyan-200 flex-shrink-0">
               {bundle.price != null ? `$${bundle.price}` : "Free"}
             </span>
           </div>
           {bundle.description && (
-            <div className="mb-6">
-              <p className="text-neutral-200 font-light text-lg leading-relaxed whitespace-pre-wrap">{bundle.description}</p>
+            <div className="mb-4 sm:mb-6">
+              <p className="text-sm sm:text-base lg:text-lg text-neutral-200 font-light leading-relaxed whitespace-pre-wrap">{bundle.description}</p>
             </div>
           )}
           
           {/* Templates in Bundle */}
           {bundle.templates && bundle.templates.length > 0 && (
-            <div className="mb-8">
-              <div className="font-mono text-cyan-300 text-base mb-3">📋 Included Templates</div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="mb-6 sm:mb-8">
+              <div className="font-mono text-cyan-300 text-sm sm:text-base mb-2 sm:mb-3">📋 Included Templates</div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
                 {bundle.templates.map(template => (
                   <a
                     key={template.id}
@@ -93,7 +93,7 @@ const BundleDetails = () => {
           <div className="mt-auto flex justify-end">
             <a
               href={`/bundles/${bundle.id}/payment`}
-              className="btn btn-primary font-mono tracking-wide bg-cyan-400/80 border-cyan-400 text-white hover:bg-cyan-500/90 hover:border-cyan-300 transition-all px-8 py-3 text-lg rounded-xl"
+              className="btn btn-primary font-mono tracking-wide bg-cyan-400/80 border-cyan-400 text-white hover:bg-cyan-500/90 hover:border-cyan-300 transition-all px-5 sm:px-6 lg:px-8 py-2 sm:py-2.5 lg:py-3 text-base sm:text-lg rounded-xl w-full sm:w-auto text-center"
             >
               Purchase Bundle
             </a>
@@ -101,7 +101,7 @@ const BundleDetails = () => {
         </div>
 
         {/* Right: Sidebar */}
-        <aside className="relative z-10 w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-cyan-400/30 bg-cyan-950/30 rounded-b-3xl lg:rounded-b-none lg:rounded-r-3xl flex flex-col px-8 py-10 gap-8">
+        <aside className="relative z-10 w-full lg:w-96 border-t lg:border-t-0 lg:border-l border-cyan-400/30 bg-cyan-950/30 rounded-b-2xl sm:rounded-b-3xl lg:rounded-b-none lg:rounded-r-3xl flex flex-col px-5 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10 gap-5 sm:gap-6 lg:gap-8">
           <div>
             <div className="font-mono text-cyan-400 text-sm mb-1">Created</div>
             <div className="text-cyan-100">{bundle.createdAt ? new Date(bundle.createdAt).toLocaleDateString() : "Unknown"}</div>
